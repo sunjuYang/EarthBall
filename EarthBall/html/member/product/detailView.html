@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!-- icon 관련 -->
+     <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
+
+     <!-- CSS 영역-->
+     <link rel="stylesheet" href="/resources/css/common/header.css">
+     <link rel="stylesheet" href="/resources/css/common/footer.css">
+     <link rel="stylesheet" href="/resources/css/member/challenge/challenge_open_form.css">
+
+    
+     <!-- js 영역-->
+    <script src="/resources/js/member/challenge/challenge_open_form.js"></script>
+
+</head>
+<body>
+
+     <!-- 헤더 시작 -->
+     <div id="headers">
+        <div class="header">
+            <div style="width: 120px;"></div>
+            <div class="logo">
+                <a href=""><img src="/resources/img/logo.png" style="width: 250px;"></a>
+            </div>
+            <div class="login-area">
+                <div><a href="">로그인</a></div>&nbsp;|&nbsp;
+                <div><a href="">회원가입</a></div>
+            </div>
+        </div>
+        <!-- 매뉴바 -->
+        <div class="menu">
+            <div>
+                <div class="dropdown">
+                    <span class="dropbtn">장보기</span>
+                    <div class="dropdown-content">
+                        <a href="">선물꾸러미</a>
+                        <a href="">욕실</a>
+                        <a href="">식품</a>
+                        <a href="">주방</a>
+                        <a href="">생활</a>
+                        <a href="">취미</a>
+                        <a href="">음료용품</a>
+                        <a href="">여성용품</a>
+                        <a href="">반려동물</a>
+                        <a href="">화장품</a>
+                        <a href="">문구</a>
+                        <a href="">전체</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">지구소개</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">챌린지</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">환경일기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">매장찾기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">고객센터</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+            </div>
+            
+    
+            <div class="search">
+                <form action="">
+                    <input type="text" placeholder="검색어 입력">
+                    <i class="xi-search"></i>
+                </form>
+            </div>
+    
+        </div>
+    </div>
+    <!-- 헤더 끝 -->
+    
+
+<!-- 내용 영역 시작 -->
+<div class="wrap">
+    <!-- 타이틀 시작-->
+    <div id="title">
+      <div id="bar_1"></div>
+      <div id="title_text">챌린지 상세</div>
+    </div>
+    <!-- 타이틀 끝-->
+  
+  
+    <div class="basic_info">
+      <div class="info_title">
+        <h2>기본 정보</h2>
+        <div class="bar_2"></div>
+        <br>
+      </div>
+  
+      <div class="basic_form_1">
+        <span class="form_title">챌린지명 <span class="star">*</span></span>
+        <input type="text" class="form_text" placeholder="챌린지명을 입력해주세요." name="chTitle" required> <br><br>
+  
+        <span class="form_title">카테고리 <span class="star">&nbsp;</span></span>
+        <input type="hidden" name="categoryNo" value="${category.categoryNo}">
+        <input type="text" class="form_text" value="${category.categoryName}" readonly> <br><br>
+  
+        <span class="form_title">도전기간 <span class="star">*</span></span>
+        <input type="date" class="form_date" name="chStartDay" required>
+        ~ <input type="date" class="form_date" name="chEndDay" required><br><br>
+      </div>
+  
+      <div class="basic_form_2">
+        <div class="flex-container">
+          <div class="wrapper">
+            <span class="form_title" align="right;">썸네일 <span class="star">*</span></span>
+            <img src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg"
+                 class="image-box"/>
+            <input type="file" accept="image/*" name="fileNo" id="fileNo" onchange="uploadImage();"/>
+            <input type="hidden" name="resultFileNo" value="">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="template">
+      <div class="info_title">
+        <h2>챌린지 상세 내용</h2>
+        <div class="bar_2"></div>
+        <br>
+      </div>
+  
+      <!-- 탬플릿 폼 안 영역 시작-->
+      <div class="temp_content">
+  
+        <div class="textarea">
+          <div class="textarea_class">
+            <textarea name="chContent" id="chContent"></textarea>
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="btn_div">
+        <button class="btn_1" id="openBtn" onclick="open_request();">챌린지 오픈 요청하기</button>
+        <button class="btn_1">다음 챌린지를 기약하기</button>
+      </div>
+  
+  
+
+
+    </div>
+
+    <!-- 내용 영역 끝 -->
+
+
+    <!-- 푸터 시작 -->
+    <div id="footer">
+        <div style="width: 100x;"></div>
+        <div><img src="/resources/img/logo2.png" style="width: 400px; padding-top: 20px;"></div>
+        <div style="margin-top: 30px; color: white;">
+            <p style="font-weight: bold;">
+                이용약관  |  개인정보처리방침  |  도매 전용 B2B몰
+            </p>
+            <p>
+                회사명 : 주식회사 인수온송민근 | 대표자 : 양선주 <br>
+                주소 : 서울시 금천구 가산디지털2로 165, 1001호 | 이메일 : contact@jigugong.co.kr | 팩스 : 0303-3444-2050 <br>
+                사업자등록번호 : 689-86-00791 | 통신판매업신고 : 제2018-서울동작-02955 | 건강기능식품영업신고 : 제2022-0112707 <br>
+                개인정보보호책임자 : 양선주 | 고객센터 : 02-812-2050 | 호스팅 제공자 : (주)지구공 
+            </p>
+        </div>
+        <div style="width: 100px;"></div>
+    </div>
+    <!-- 푸터 끝 -->
+    
+</body>
+</html>

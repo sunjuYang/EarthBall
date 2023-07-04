@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="INFO">
+    <Properties>
+        <Property name="LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.sss}] %-5leval [%c{1}] - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG" additivity="false">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+
+        <Logger name="org.market" level="DEBUG" additivity="false">
+            <AppenderRef ref="CONSOLE" />
+        </Logger>
+
+        <Logger name="org.springframework" level="ERROR" additivity="false">
+            <AppenderRef ref="CONSOLE" />
+        </Logger>
+    </Loggers>
+
+</Configuration>

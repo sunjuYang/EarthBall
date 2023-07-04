@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" href="https://kenwheeler.github.io/slick/slick/slick-theme.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(function(){
+            $('.mainSlide').slick({
+                dots: true,
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite : true
+            });
+            // $('.mainSlide').slick({
+            //     dots: true,
+            //     infinite: true,
+            //     speed: 500,
+            //     fade: true,
+            //     cssEase: 'linear'
+            // });
+        })
+        $(function(){
+            $('.diarySlide').slick({
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            })
+        })
+    </script>
+
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            min-width: 1500px;
+        }
+
+        /* header */
+        #headers{
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 9999;
+            background-color: white;
+            min-width: 1200px;
+        }
+        .header{
+            width: 1200px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu{
+            width: 1200px;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .login-area{
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+            margin-top: 30px;
+            color: #19A7CE;
+        }
+        .login-area a{
+            text-decoration: none;
+            color: #19A7CE;
+        }
+        .logo{
+            width: 250px;
+        }
+
+        /* 드롭다운 */
+        .dropdown{
+            position : relative;
+            display : inline-block;
+        }
+        .dropdown-content{
+            display : none;
+            position : absolute;
+            z-index : 1; /*다른 요소들보다 앞에 배치*/
+            background-color : white;
+            width : 100px;
+            border-radius : 8px;
+            box-shadow : 0 0 10px rgba(0,0,0,0.2);
+        }
+        .dropdown-content a{
+            display : block;
+            text-decoration : none;
+            color : black;
+            padding: 10px;
+        }
+        .dropdown-content a:hover{
+            background-color : #19A7CE;
+            color : white;
+            border-radius: 8px;
+        }
+        .dropdown:hover .dropdown-content{
+            display : block;
+        }
+        .dropdown>span{
+            display: block;
+            padding: 20px;
+            cursor: pointer;
+            color: #19A7CE;
+        }
+        .dropdown-content a{
+            color : #19A7CE;
+        }
+
+        .search>form {
+            position: relative;
+            width: 200px;
+        }
+
+        .search>form>input {
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .search>form>img {
+            position : absolute;
+            width: 17px;
+            top: 10px;
+            right: 1px;
+            margin: 0;
+        }
+
+        /* ---------------------------------- */
+
+        /* 메인영역 */
+        #container{
+            width: 1200px;
+            height: 3000px;
+            margin: 0 auto;
+            padding-top: 170px;
+            /* background-color: aliceblue; */
+        }
+
+        #title {
+            width : 100%;
+            height : 150px;
+            padding-top : 20px;
+            /* border : 1px solid red; */
+        }
+
+        #title_1 {
+            width : 250px;
+            height : 70px;
+            margin : 30px 0px 0px 15px;
+            box-sizing : border-box;
+            /* border : 1px solid red; */
+            align-items : center;
+            display : flex;
+        }
+
+        #title_text {
+            width : 200px;
+            height : 50px;
+            font-size : 40px;
+            font-weight : bold;
+            padding : 0px 0px 7px 10px;
+            /* border : 1px solid red; */
+        }
+
+        #content {
+            display : flex;
+            width : 100%;
+            height : 80%;
+            
+            box-sizing: border-box;
+        }
+
+        /* input type="number" 우측 버튼 삭제 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button{-webkit-appearance: none; margin: 0;}
+
+        #content1 {
+            width : 45%;
+            height : 80%;
+            margin : 0px 5px 0px 50px;
+            /* border : 1px solid red; */
+            flex-direction: column;
+            box-sizing : border-box;
+        }
+
+        #content1 div, #content2 div { box-sizing : border-box; }
+
+        #content1_1 {
+            overflow : auto;
+            /* border : 1px solid red; */
+            flex-direction: column;
+            box-sizing : border-box;
+        }
+
+        #content1_2 {
+            width : 100%;
+            height : 10%;
+            margin-top : 20px;
+            /* border : 1px solid red; */
+        }
+
+        #content1_3 {
+            width : 100%;
+            height : 25%;
+            margin-top : 15px;
+            /* border : 1px solid red; */
+        }
+
+        #content1_4 {
+            width : 100%;
+            height : 20%;
+            /* border : 1px solid red; */
+        }
+
+        #content1_1_1, #content1_3_1, #content1_4_1 {
+            width : 100%;
+            height : 10%;
+            /* border : 1px solid red; */
+        }
+
+        #content1_1_2 {
+            width : 100%;
+            height : 30%;
+            margin-top : 10px;
+            /* border : 1px solid red; */
+            display : flex;
+        }
+
+        #content1_1::-webkit-scrollbar {
+            display: none;
+        }
+
+        #content1_2_1 {
+            width : 100%;
+            height : 20%;
+            /* border : 1px solid red; */
+        }
+
+        #content1_2_2 {
+            width : 100%;
+            height : 100%;
+            /* border : 1px solid red; */
+        }
+
+        #content1_2_2>table {
+            width : 90%;
+            height : 60%;
+            margin : 20px 0px 0px 20px;
+            font-size : 16px;
+        }
+
+        #content1_2_2 th {
+            text-align : left;
+            color : gray;
+        }
+
+        #content1_2_2 td {
+            font-weight : 600;
+        }
+
+        #content1_3_2>table {
+            width : 95%;
+            /* border : 1px solid red; */
+            margin : 20px 0px 20px 15px;
+        }
+
+        #content1_4_2 {
+            width : 100%;
+            height : 70%;
+            /* border : 1px solid red; */
+        }
+
+        #content1_4_2>table {
+            width : 100%;
+            margin : 0px 0px 0px 20px;
+        }
+
+        #content1_4_2 span {
+            font-size : 14px;
+            font-weight : 600;
+        }
+
+        #content2 {
+            width : 45%;
+            height : 40%;
+            margin : 0px 0px 0px 5px;
+            /* border : 1px solid red; */
+            flex-direction: column;
+            position : sticky;
+            top : 170px;
+        }
+
+        #content2_1 {
+            width : 100%;
+            height : 25%;
+            background-color : #f1fcff;
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_1,#content2_2_1 {
+            width : 100%;
+            height : 10%;
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_2 {
+            width : 100%;
+            height : 50%;
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_2>table {
+            width : 100%;
+            margin-top : 20px;
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_3 {
+            width : 100%;
+            height : 20%;
+            margin-top : 30px;
+            background-color : rgb(235, 235, 235);
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_3>div {
+            margin : 0px 0px 0px 20px;
+            /* border : 1px solid red; */
+        }
+
+        #content2_1_3 span {
+            font-size : 16px;
+            font-weight : 600;
+            line-height : 45px;
+        }
+
+        #content2_2 {
+            width : 100%;
+            height : 25%;
+            background-color : #f1fcff;
+            margin-top : 30px;
+            /* border : 1px solid red; */
+        }
+
+        #content2_2_2 {
+            width : 100%;
+            height : 50%;
+            /* border : 1px solid red; */
+        }
+
+        #content2_2_2>div {
+            width : 100%;
+            height : 25%;
+            margin : 20px 0px;
+            /* border : 1px solid red; */
+        }
+
+        #content2_2_2 input {
+            width : 16px;
+            height : 16px;
+            margin : 15px 0px 0px 20px;
+        }
+
+        #content2_2_2 label {
+            font-size : 18px;
+            font-weight : 550;
+            margin-left : 10px;
+        }
+
+        #content2_2_3 {
+            width : 100%;
+            height : 20%;
+            /* border : 1px solid red; */
+        }
+
+        #content2_2 input:hover {
+            cursor : pointer;
+            background-color : #146C94;
+        }
+               
+        #bar_1 {
+            width : 12px;
+            height : 70px;
+            background-color : #146C94;
+        }
+
+        #bar_2 {
+            width : 130px;
+            height : 6px;
+            background-color : #146C94;
+            margin : 0px 0px 0px 20px;
+        }
+
+        #img-area {
+            width : 35%;
+            height : 100%;
+            /* border : 1px solid red; */
+        }
+
+        #product_img {
+            width : 60%;
+            height : 60%;
+            margin : auto;
+            /* margin-top : 25px; */
+            /* border : 1px solid red; */
+        }
+
+        #product_content {
+            width : 65%;
+            /* height : 100%; */
+            flex-direction: column;
+            /* border : 1px solid red; */
+            box-sizing : border-box;
+        }
+
+        #product_name, #product_count, #product_price {
+            width : 100%;
+            height : 20%;
+            align-items : center;
+            line-height : 20%;
+            /* border : 1px solid red; */
+            margin-top: 10px;
+        }
+
+        #product_name {
+            font-size : 16px;
+            font-weight : bold;
+        }
+
+        #product_amount {
+            font-size : 14px;
+            font-weight : 550;
+            color : gray;
+        }
+
+        #product_price {
+            font-size : 16px;
+            font-weight : 700;
+            color : #19A7CE;
+        }
+
+        #receiveName, #receivePhone {
+            width : 210px;
+            height : 26px;
+            font-size : 16px;
+            border : 1px solid #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px;
+        }
+
+        #postCode {
+            width : 120px;
+            height : 26px;
+            font-size : 16px;
+            border : 1px solid #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px;
+        }
+
+        #selectAddress {
+            width : 80px;
+            height : 30px;
+            font-size : 16px;
+            color : white;
+            border : 1px solid #19A7CE;
+            background-color : #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px 0px 5px;
+            padding : 0px;
+        }
+
+        #selectAddress:hover, #selectCoupon:hover, #pointAll:hover {
+            border : 1px solid #146C94;
+            background-color : #146C94;
+            cursor : pointer;
+        }
+
+        #address, #detailAddress {
+            width : 455px;
+            height : 26px;
+            font-size : 16px;
+            border : 1px solid #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px;
+        }
+        
+        #deliveryMemo {
+            width : 100%;
+            height : 50px;
+            /* border : 1px solid red; */
+        }
+
+        #deliveryMemo select:hover { cursor : pointer; }
+
+        #deliveryMemo>select {
+            width : 460px;
+            height : 30px;
+            font-size : 16px;
+            color : gray;
+            border : 1px solid #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px 10px 19px;
+        }
+
+        #coupon, #point {
+            width : 200px;
+            height : 26px;
+            font-size : 16px;
+            color : gray;
+            border : 1px solid #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px;
+        }
+
+        #selectCoupon, #pointAll {
+            width : 80px;
+            height : 30px;
+            font-size : 16px;
+            color : white;
+            border : 1px solid #19A7CE;
+            background-color : #19A7CE;
+            border-radius : 7px;
+            margin : 10px 0px 0px 5px;
+            padding : 0px;
+        }
+
+        #orderSummaryName {
+            width : 50%;
+            height : 30px;
+            font-size : 18px;
+            font-weight : 600;
+            padding-left : 15px;
+            color : gray;
+        }
+
+        #orderSummaryContent {
+            width : 50%;
+            font-size : 18px;
+            font-weight : bold;
+            text-align: right;
+            padding-right : 20px;
+        }
+
+        #orderSummaryTotal-area {
+            height : 60px;
+            vertical-align : bottom;
+        }
+
+        #orderSummaryTotal {
+            font-size : 18px;
+            font-weight : bold;
+            padding-left : 15px;
+        }
+
+        #payComplete {
+            width : 100%;
+            height : 100%;
+            background-color : #19A7CE;
+            font-size : 30px;
+            margin-top : 35px;
+            color : white;
+            border : 0px;
+        }
+
+        /* ---------------------------------- */
+        /* footer */
+        #footer{
+            width: 100%;
+            height: 220px;
+            margin: 0 auto;
+            background-color: #19A7CE;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로그인 영역 -->
+    <div id="headers">
+        <div class="header">
+            <div style="width: 120px;"></div>
+            <div class="logo">
+                <a href=""><img src="../../resources/img/logo.png" style="width: 250px;"></a>
+            </div>
+            <div class="login-area">
+                <div><a href="">로그인</a></div>&nbsp;|&nbsp;
+                <div><a href="">회원가입</a></div>
+            </div>
+        </div>
+        <!-- 매뉴바 -->
+        <div class="menu">
+            <div>
+                <div class="dropdown">
+                    <span class="dropbtn">장보기</span>
+                    <div class="dropdown-content">
+                        <a href="">선물꾸러미</a>
+                        <a href="">욕실</a>
+                        <a href="">식품</a>
+                        <a href="">주방</a>
+                        <a href="">생활</a>
+                        <a href="">취미</a>
+                        <a href="">음료용품</a>
+                        <a href="">여성용품</a>
+                        <a href="">반려동물</a>
+                        <a href="">화장품</a>
+                        <a href="">문구</a>
+                        <a href="">전체</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">지구소개</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">챌린지</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">환경일기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">매장찾기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">고객센터</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+            </div>
+            
+    
+            <div class="search">
+                <form action="">
+                    <input type="text" placeholder="검색어 입력">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                </form>
+            </div>
+    
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="title">
+            <div id="title_1">
+                <div id="bar_1"></div>
+                <div id="title_text">결제하기</div>
+            </div>
+        </div>
+
+        <div id="content">
+            <div id="content1">
+                <div id="content1_1">
+                    <div id="content1_1_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">주문 상품 정보</h2>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content1_1_2">
+                        <div id="img-area">
+                            <div id="product_img"><img src="../../resources/img/peng.jpg" width="100%" height="100%" alt="상품이미지"></div>
+                        </div>
+                        <div id="product_content">
+                            <div id="product_name"><p>[지구공] 베스트셀러</p></div>
+                            <div id="product_amount"><p>수량 : 2개</p></div>
+                            <div id="product_price"><p>11,000원</p></div>
+                        </div>
+                    </div>
+                    <div id="content1_1_2">
+                        <div id="img-area">
+                            <div id="product_img"><img src="../../resources/img/peng.jpg" width="100%" height="100%" alt="상품이미지"></div>
+                        </div>
+                        <div id="product_content">
+                            <div id="product_name"><p>[지구공] 베스트셀러</p></div>
+                            <div id="product_amount"><p>수량 : 2개</p></div>
+                            <div id="product_price"><p>11,000원</p></div>
+                        </div>
+                    </div>
+                    <div id="content1_1_2">
+                        <div id="img-area">
+                            <div id="product_img"><img src="../../resources/img/peng.jpg" width="100%" height="100%" alt="상품이미지"></div>
+                        </div>
+                        <div id="product_content">
+                            <div id="product_name"><p>[지구공] 베스트셀러</p></div>
+                            <div id="product_amount"><p>수량 : 2개</p></div>
+                            <div id="product_price"><p>11,000원</p></div>
+                        </div>
+                    </div>
+                    <div id="content1_1_2">
+                        <div id="img-area">
+                            <div id="product_img"><img src="../../resources/img/peng.jpg" width="100%" height="100%" alt="상품이미지"></div>
+                        </div>
+                        <div id="product_content">
+                            <div id="product_name"><p>[지구공] 베스트셀러</p></div>
+                            <div id="product_amount"><p>수량 : 2개</p></div>
+                            <div id="product_price"><p>11,000원</p></div>
+                        </div>
+                    </div>
+                    <div id="content1_1_2">
+                        <div id="img-area">
+                            <div id="product_img"><img src="../../resources/img/peng.jpg" width="100%" height="100%" alt="상품이미지"></div>
+                        </div>
+                        <div id="product_content">
+                            <div id="product_name"><p>[지구공] 베스트셀러</p></div>
+                            <div id="product_amount"><p>수량 : 2개</p></div>
+                            <div id="product_price"><p>11,000원</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="content1_2">
+                    <div id="content1_2_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">주문자 정보</h2>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content1_2_2">
+                        <table>
+                            <tr>
+                                <th>이름</th>
+                                <td>홍길동</td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td>01012345678</td>
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td>honggildong@gmail.com</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div id="content1_3">
+                    <div id="content1_3_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">배송지 정보</h2>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content1_3_2">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="checkbox" id="sameOrderUser">
+                                    <label for="sameOrderUser" style="font-size : 14px; font-weight : 600;"> 주문자 정보와 동일</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="240"><input type="text" id="receiveName" placeholder="수령인" required></td>
+                                <td><input type="number" id="receivePhone" placeholder="연락처 (- 제외)" required></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="number" id="postCode" placeholder="우편번호" width="50%" required>
+                                    <input type="button" id="selectAddress" value="주소찾기">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="text" id="address" placeholder="주소" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="text" id="detailAddress" placeholder="상세주소" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="content1_3_3">
+                            <span style="font-size : 20px; font-weight : bold; margin : 30px 0px 20px 25px;">배송메모</span>
+                            <div id="deliveryMemo">
+                                <select>
+                                    <option value="없음">배송메모를 선택해주세요.</option>
+                                    <option>배송 전에 미리 연락 바랍니다.</option>
+                                    <option>부재 시 경비실에 맡겨 주세요.</option>
+                                    <option>부재 시 전화 주시거나 문자 남겨주세요.</option>
+                                    <option>문 앞에 놓고 문자해주세요.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="content1_4">
+                    <div id="content1_4_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">쿠폰 / 포인트</h1>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content1_4_2">
+                        <table>
+                            <tr>
+                                <td><h2>쿠폰</h2></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="coupon" value="보유쿠폰 0장" readonly>
+                                    <input type="button" id="selectCoupon" value="쿠폰적용">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h2>포인트</h2></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="number" id="point" value="0">
+                                    <input type="button" id="pointAll" value="전액사용">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding : 5px 0px;">
+                                    <span>보유포인트</span>
+                                    <span id="myPoint" style="font-size : 14px; font-weight : bold;">3,000</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span>1,000 포인트 이상 보유 및 10,000원 이상 구매 시<br> 사용 가능</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="content2">
+                <div id="content2_1">
+                    <div id="content2_1_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">주문 요약</h2>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content2_1_2">
+                        <table>
+                            <tr>
+                                <td id="orderSummaryName">상품가격</td>
+                                <td id="orderSummaryContent">33,000원</td>
+                            </tr>
+                            <tr>
+                                <td id="orderSummaryName">배송비</td>
+                                <td id="orderSummaryContent">무료</td>
+                            </tr>
+                            <tr id="orderSummaryTotal-area">
+                                <td id="orderSummaryTotal">총 주문금액</td>
+                                <td id="orderSummaryContent">33,000원</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="content2_1_3">
+                        <div>
+                            <span id="rewardPoint" style="color : #19A7CE">2,220</span>
+                            <span> 포인트 적립 예정</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="content2_2">
+                    <div id="content2_2_1">
+                        <h2 style="margin : 0px 0px 0px 20px;">결제 수단</h2>
+                        <div id="bar_2"></div>
+                    </div>
+                    <div id="content2_2_2">
+                        <div>
+                            <input type="radio" id="credit" name="pay" value="credit">
+                            <label for="credit">신용카드</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="kakao" name="pay" value="kakao">
+                            <label for="kakao">카카오페이</label>
+                        </div>
+                        <div>
+                            <input type="radio"  id="naver" name="pay" value="naver">
+                            <label for="naver">네이버페이</label>
+                        </div>
+                    </div>
+                    <div id="content2_2_3">
+                        <input type="button" id="payComplete" value="결제하기">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div style="width: 100px;"></div>
+        <div><img src="../../resources/img/logo2.png" style="width: 400px; padding-top: 20px;"></div>
+        <div style="margin-top: 30px; color: white;">
+            <p style="font-weight: bold;">
+                이용약관  |  개인정보처리방침  |  도매 전용 B2B몰
+            </p>
+            <p>
+                회사명 : 주식회사 인수온송민근 | 대표자 : 양선주 <br>
+                주소 : 서울시 금천구 가산디지털2로 165, 1001호 | 이메일 : contact@jigugong.co.kr | 팩스 : 0303-3444-2050 <br>
+                사업자등록번호 : 689-86-00791 | 통신판매업신고 : 제2018-서울동작-02955 | 건강기능식품영업신고 : 제2022-0112707 <br>
+                개인정보보호책임자 : 양선주 | 고객센터 : 02-812-2050 | 호스팅 제공자 : (주)지구공 
+            </p>
+        </div>
+        <div style="width: 100px;"></div>
+    </div>
+
+</body>
+</html>

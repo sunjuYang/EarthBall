@@ -1,0 +1,370 @@
+/* 상품정보 */
+#infomationArea{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+#productInfo{
+    margin-left: 80px;
+    width: 100%;
+}
+#productPrice>h4{
+    color: #19a7ce;
+    font-size: 20px;
+} 
+#productText{
+    margin-top: 20px;
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    padding: 10px;
+    white-space: pre-wrap;
+}
+#productTable{
+    margin-top: 20px;
+    width: 100%;
+    height: 100px;
+    border-radius: 8px;
+    padding: 10px;
+}
+#productTable>table{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+#priceArea{
+    width: 100%;
+    height: 100px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+#priceArea button{
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    background-color: #19a7ce;
+    color: white;
+    font-size: 20px;
+}
+#priceArea button:hover{
+    cursor: pointer;
+    background-color: #1ab2d9;
+}
+#priceArea input{
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+}
+#priceArea i{
+    margin-top: 5px;
+}
+#total{
+    font-size: 25px;
+    color: #19a7ce;
+    margin-top: 10px;
+}
+#buttonArea{
+    display: flex;
+    justify-content: space-between;
+}
+#buttonArea>div>button{
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    border: none;
+    font-size: 15px;
+    color: #19a7ce;
+    background-color: white;
+    border: 1px solid #19a7ce;
+}
+#buttonArea>div>button:hover{
+    background-color: #19a7ce;
+    color: white;
+    cursor: pointer;
+}
+/* 포토리뷰 */
+#photoReviewArea{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+.review1{
+    width: 300px;
+    height: 100%;
+    margin: 10px;
+}
+.reviewSlide img { 
+    width: 270px;
+    height: 250px;
+    margin: 0 auto; 
+}
+.reviewSlide button { 
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+}
+.reviewSlide button::before{
+    font-family: 'xeicon'; 
+    color: #fff; 
+    font-size: 45px;
+}
+.reviewSlide button.slick-prev {
+    left: 0px; 
+    font-size: 0; 
+    color: transparent;
+}
+.reviewSlide button.slick-prev:before{
+    content:"\e93d";
+}
+.reviewSlide button.slick-next {
+    right: 0px; 
+    font-size: 0; 
+    color: transparent;
+}
+.reviewSlide button.slick-next::before{
+    content:"\e940";
+}
+/* .slick-dots{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+} */
+.userProfile{
+    display: flex;
+}
+.userPhoto>img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.profileArea{
+    width: 270px;
+    margin: 0 auto;
+}
+.userName{
+    font-size: 15px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+#navArea{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+}
+#navArea>div>button{
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    color: #19a7ce;
+    background-color: white;
+    border: 1px solid #19a7ce;
+}
+#navArea>div>button:hover{
+    background-color: #19a7ce;
+    color: white;
+    cursor: pointer;
+}
+.star1{color: red;}
+
+/* 변경영역 */
+#changeArea{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+#productReview{display: none;}
+#productQna{display: none;}
+
+/* 상세정보 */
+#productDetail>img{
+    width: 100%;
+}
+
+/* 상세정보 */
+/* 리뷰 */
+.review{
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    border-bottom: 1px solid #ddd9d9;
+}
+.reviewArea{
+    display: flex;
+    justify-content: space-between;
+}
+.insertReview{
+    width: 120px;
+    height: 30px;
+    border-radius: 50px;
+    border: none;
+    font-size: 15px;
+    background-color: #19a7ce;
+    color: white;
+}
+.insertReview:hover{
+    cursor: pointer;
+    background-color: #1ab2d9;
+}
+.onlyPhoto{
+    width: 140px;
+    height: 30px;
+    background-color: transparent;
+    margin: 0 auto;
+    border: none;
+    color: #999;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+.onlyPhoto:hover{
+    cursor: pointer;
+    color: #19a7ce;
+}
+.star2{color: red;}
+/* 사진크기변경 */
+.reviewArea img{
+    width: 120px;
+    height: 120px;
+}
+#reviewContent{
+    width: 100%;
+    height: 300px;
+    border-top: 1px solid #999;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: auto 0;
+    resize: none;
+}
+/* 각 별들의 기본 설정 */
+.starR{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+    font-size: 1.8em;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+/* 별 이모지를 클릭 후 class="on"이 되었을 경우 */
+.on{
+    text-shadow: 0 0 0 red;
+}
+
+.replyCount{margin-top: 20px;}
+.replyCount>span{color: #19A7CE;}
+/* 리뷰댓글 */
+.replyContent:focus{
+    outline: none;
+}
+.replyArea{
+    display: none;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+.area1{
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+.replyOne{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid #999;
+}
+.replyOne pre{
+    width: 1100px;
+    white-space: pre-wrap;
+}
+.area1 img{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+.area1 div{
+    margin-left: 10px;
+}
+.area2{
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.area2{ border: 1px solid #999;}
+.area2 textarea{
+    width: 100%;
+    height: 100px;
+    border: none;
+    padding: 10px;
+    resize: none;
+    box-sizing: border-box;
+}
+.area2>div:nth-child(2){
+    display: flex;
+    justify-content: space-between;
+}
+.area2 i{
+    font-size: 20px;
+    margin: 10px;
+    color: #999;
+}
+.area2 button{
+    width: 50px;
+    height: 25px;
+    border: none;
+    border-radius: 100px;
+    background-color: #19a7ce;
+    color: white;
+    margin: 10px;
+}
+
+/* Q&A */
+#productQna{
+    width: 600px;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 20px;
+    border: 2px solid #999;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 100px;
+}
+.insertQna{
+    width: 300px;
+    height: 80px;
+    border-radius: 50px;
+    border: 2px solid #19a7ce;
+    font-size: 30px;
+    color: #19a7ce;
+    background-color: white;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.insertQna:hover{
+    cursor: pointer;
+    background-color: #19a7ce;
+    color: white;
+}

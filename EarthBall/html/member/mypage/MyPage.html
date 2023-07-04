@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+    <script>
+        $(function(){
+            $('.mainSlide').slick({
+                dots: true,
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite : true
+            });
+            // $('.mainSlide').slick({
+            //     dots: true,
+            //     infinite: true,
+            //     speed: 500,
+            //     fade: true,
+            //     cssEase: 'linear'
+            // });
+        })
+        $(function(){
+            $('.diarySlide').slick({
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            })
+        })
+    </script>
+    <style>
+
+
+         /* 메인영역 */
+         #container{
+            width: 70%;
+            height: 3000px;
+            margin: 0 auto;
+            padding-top: 170px;
+            /* background-color: aliceblue; */
+        }
+
+         /* header */
+         #headers{
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 9999;
+            background-color: white;
+            min-width: 1200px;
+        }
+        .header{
+            width: 70%;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu{
+            width: 70%;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .login-area{
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+            margin-top: 30px;
+            color: #19A7CE;
+        }
+        .login-area a{
+            text-decoration: none;
+            color: #19A7CE;
+        }
+        .logo{
+            width: 250px;
+        }
+
+        /* 드롭다운 */
+        .dropdown{
+            position : relative;
+            display : inline-block;
+        }
+        .dropdown-content{
+            display : none;
+            position : absolute;
+            z-index : 1; /*다른 요소들보다 앞에 배치*/
+            background-color : white;
+            width : 100px;
+            border-radius : 8px;
+            box-shadow : 0 0 10px rgba(0,0,0,0.2);
+        }
+        .dropdown-content a{
+            display : block;
+            text-decoration : none;
+            color : black;
+            padding: 10px;
+        }
+        .dropdown-content a:hover{
+            background-color : #19A7CE;
+            color : white;
+            border-radius: 8px;
+        }
+        .dropdown:hover .dropdown-content{
+            display : block;
+        }
+        .dropdown>span{
+            display: block;
+            padding: 20px;
+            cursor: pointer;
+            color: #19A7CE;
+        }
+        .dropdown-content a{
+            color : #19A7CE;
+        }
+
+        .search>form {
+            position: relative;
+            width: 200px;
+        }
+
+        .search>form>input {
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .search>form>img {
+            position : absolute;
+            width: 17px;
+            top: 10px;
+            right: 1px;
+            margin: 0;
+        }
+        /* ---------------------------------- */
+
+        /* 카테고리 */
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        height: 1200px;
+    }
+
+    /* 추가된 스타일 */
+    .flex-container {
+        display: flex;
+        width : 50%;
+    }
+
+    .sidebar {
+        width: 200px;
+        height: 100vh;
+        background-color: transparent;  /* 배경색을 투명하게 설정 */
+        color: black;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .main-content {
+    flex-grow: 1;
+    box-sizing: border-box; /* Add this line*/
+    background-color: #AFD3E3; /* 하늘색으로 배경색 설정 */
+    padding: 5px; /* 내용과 테두리 사이에 간격 설정 */
+    border-radius: 8px; /* 테두리를 둥글게 만듭니다 (선택 사항) */
+    width : 50%;
+    height: 130px;
+    position: relative;
+    left: 130px;
+    top : 30px;
+
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin-bottom: 10px;
+    }
+
+    .sidebar ul li a {
+        color: black;  /* 링크 색상을 검은색으로 변경 */
+        text-decoration: none;
+    }
+
+    .divider {
+        border-bottom: 4px solid #146C94;
+        margin: 20px 0;
+        width: 50%; /* 또는 원하는 너비 */
+        display: block;
+        margin: 1 auto; /* 구분선을 중앙으로 */
+    }
+
+    .divider2 {
+        border-bottom: 4px solid black;
+        margin: 20px 0;
+        width: 50%; /* 또는 원하는 너비 */
+        display: block;
+        margin: 1 auto; /* 구분선을 중앙으로 */
+    }
+
+    .profile-picture {
+        position: relative;
+        left: 40px;
+        top : 34px
+    }
+
+    .text-content p {
+        position: relative;
+        left : 80px;
+    }
+
+
+    .main-content2 {
+        position: relative;
+        right: 0px;
+        top : 400px;
+    }
+
+    .main-content2 p {
+        font-size : 20px;
+        position: relative;
+        top : 100px;
+        left : 200px;
+
+    }
+
+    .text-content {
+        position: relative;
+        left : 50px;
+    }
+
+
+
+        /* ---------------------------------- */
+        /* footer */
+        #footer{
+            width: 100%;
+            height: 220px;
+            margin: 0 auto;
+            background-color: #19A7CE;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+     <!-- 로그인 영역 -->
+     <div id="headers">
+        <div class="header">
+            <div style="width: 120px;"></div>
+            <div class="logo">
+                <a href=""><img src="../resources/img/logo.png" style="width: 250px;"></a>
+            </div>
+            <div class="login-area">
+                <div><a href="">로그인</a></div>&nbsp;|&nbsp;
+                <div><a href="">회원가입</a></div>
+            </div>
+        </div>
+
+
+        <!-- 매뉴바 -->
+        <div class="menu">
+            <div>
+                <div class="dropdown">
+                    <span class="dropbtn">장보기</span>
+                    <div class="dropdown-content">
+                        <a href="">선물꾸러미</a>
+                        <a href="">욕실</a>
+                        <a href="">식품</a>
+                        <a href="">주방</a>
+                        <a href="">생활</a>
+                        <a href="">취미</a>
+                        <a href="">음료용품</a>
+                        <a href="">여성용품</a>
+                        <a href="">반려동물</a>
+                        <a href="">화장품</a>
+                        <a href="">문구</a>
+                        <a href="">전체</a>
+                    </div>
+                </div>
+
+
+                <div class="dropdown">
+                    <span class="dropbtn">지구소개</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropbtn">챌린지</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropbtn">환경일기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropbtn">매장찾기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropbtn">고객센터</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search" style="text-align: center;">
+                <form action="">
+                    <input type="text" placeholder="검색어 입력">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- 메인 컨텐츠 -->
+    <div class="flex-container">
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <h2 class="divider"></h2>
+            <ul class="menu1">
+                <li><a href="#">참여현황</a></li>
+                <li><a href="#">주문 관리</a></li>
+                <li><a href="#">찜 목록</a></li>
+                <li><a href="#">1:1문의</a></li>
+                <li><a href="#">포인트 내역</a></li>
+                <li><a href="#">내 정보 수정</a></li>
+                <li><a href="#">회원탈퇴</a></li>
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+                <img class="profile-picture" src="your-image-source.jpg" alt="Profile Picture" style="width: 50px; height: 50px; float: left; margin-right: 20px;">
+            <div class="text-content">
+                <h1>사용자님 환영합니다!</h1>
+                <p>오늘의 챌린지는 참여하셨나요?</p>
+            </div>
+
+            <!-- 참여 현황 등 / 누르면 뜨게끔 하고 싶음 -->
+            <div class="main-content2" style="padding: 20px; margin-top: 20px;">
+                <h2>참여 현황</h2>
+                <p>아직 참여하신 챌린지, 일기가 없어요~!</p>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div id="footer">
+    <div style="width: 100px;"></div>
+    <div><img src="image/logo2.png" style="width: 400px; padding-top: 20px;"></div>
+    <div style="margin-top: 30px; color: white;">
+        <p style="font-weight: bold;">
+            이용약관  |  개인정보처리방침  |  도매 전용 B2B몰
+        </p>
+        <p>
+            회사명 : 주식회사 인수온송민근 | 대표자 : 양선주 <br>
+            주소 : 서울시 금천구 가산디지털2로 165, 1001호 | 이메일 : contact@jigugong.co.kr | 팩스 : 0303-3444-2050 <br>
+            사업자등록번호 : 689-86-00791 | 통신판매업신고 : 제2018-서울동작-02955 | 건강기능식품영업신고 : 제2022-0112707 <br>
+            개인정보보호책임자 : 양선주 | 고객센터 : 02-812-2050 | 호스팅 제공자 : (주)지구공
+        </p>
+    </div>
+    <div style="width: 100px;"></div>
+</div>
+
+</body>
+</html>

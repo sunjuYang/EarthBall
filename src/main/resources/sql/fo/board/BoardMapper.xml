@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_DATE" property="boardDate" />
+		<result column="BOARD_CONTENT" property="boardContent" />
+		 <result column="MEMBER_ID" property="memberId" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+	</resultMap>
+
+	<resultMap id="replyResultSet" type="reply">
+		<result column="Q_REPLY_NO" property="QreplyNo" />
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="Q_REPLY_CONTENT" property="QreplyContent" />
+		<result column="Q_CREATE_DATE" property="QcreateDate" />
+		<result column="MEMBER_ID" property="memberId" />
+	</resultMap>
+
+  <!-- 게시글 총 갯수 구하는 쿼리문 -->
+  <select id="selectListCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM QNA
+    WHERE STATUS = 'Y'
+  </select>
+
+  <!-- 게시글 리스트를 구해주는 쿼리문 -->
+<select id="selectList" resultType="board" resultMap="boardResultSet">
+  SELECT QNA.BOARD_NO,
+         QNA.BOARD_TITLE,
+         TO_CHAR(QNA.BOARD_DATE, 'YYYY-MM-DD') AS BOARD_DATE,
+         MEMBER.MEMBER_ID,
+         QNA.ORIGIN_NAME
+  FROM QNA
+  INNER JOIN MEMBER ON QNA.MEMBER_ID = MEMBER.MEMBER_ID
+  WHERE QNA.STATUS = 'Y'
+  ORDER BY QNA.BOARD_NO DESC
+</select>
+  <!--  게시글 작성용 쿼리문 -->
+<insert id="insertBoard" parameterType="board">
+    INSERT INTO QNA (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_ID, ORIGIN_NAME, CHANGE_NAME)
+    VALUES (SEQ_BNO.NEXTVAL, #{boardTitle}, #{boardContent}, #{memberId}, #{originName}, #{changeName})
+</insert>
+<!--  게시글 삭제용 쿼리문 -->
+<update id="deleteBoard" parameterType="_int">
+	UPDATE QNA
+		   SET STATUS = 'N'
+		 WHERE BOARD_NO = #{boardNo}
+</update>
+
+<!--  게시글 수정용 쿼리문 -->
+<update id="updateBoard" parameterType="board">
+		UPDATE QNA
+		   SET BOARD_TITLE = #{boardTitle}
+		     , BOARD_CONTENT = #{boardContent}
+		     , ORIGIN_NAME = #{originName}
+		     , CHANGE_NAME = #{changeName}
+		 WHERE BOARD_NO = #{boardNo}
+	</update>
+
+  <!-- 게시글 상세 조회용 쿼리문 -->
+<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
+    SELECT QNA.BOARD_NO
+         , QNA.BOARD_TITLE
+         , MEMBER.MEMBER_ID
+         , TO_CHAR(QNA.BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+         , QNA.BOARD_CONTENT
+         , QNA.ORIGIN_NAME AS "originName"
+         , QNA.CHANGE_NAME AS "changeName"
+      FROM QNA
+      INNER JOIN MEMBER ON QNA.MEMBER_ID = MEMBER.MEMBER_ID
+     WHERE QNA.BOARD_NO = #{boardNo} AND QNA.STATUS = 'Y'
+</select>
+
+	<!-- 마이페이지 게시글 총 갯수 구하는 쿼리문 -->
+	<select id="myBoardListCount" resultType="_int">
+	    SELECT COUNT(*)
+	    FROM QNA WHERE QNA.MEMBER_ID = #{memberId}
+	</select>
+
+    <!-- 마이페이지 게시글 리스트를 구해주는 쿼리문 -->
+	<select id="selectMyBoard" resultMap="boardResultSet">
+	  SELECT QNA.BOARD_NO,
+	         QNA.BOARD_TITLE,
+	         TO_CHAR(QNA.BOARD_DATE, 'YYYY-MM-DD') AS BOARD_DATE,
+	         QNA.MEMBER_ID,
+	         QNA.ORIGIN_NAME,
+	         QNA.CHANGE_NAME
+	  FROM QNA
+	  WHERE QNA.STATUS = 'Y' AND QNA.MEMBER_ID = #{memberId}
+	  ORDER BY QNA.BOARD_NO DESC
+	</select>
+
+<!-- 이전글 조회용 쿼리문 -->
+<select id="selectPrevBoard" parameterType="_int" resultType="board">
+    SELECT *
+    FROM (
+        SELECT QNA.BOARD_NO
+             , QNA.BOARD_TITLE
+             , MEMBER.MEMBER_ID
+             , TO_CHAR(QNA.BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+             , QNA.BOARD_CONTENT
+          FROM QNA
+          INNER JOIN MEMBER ON QNA.MEMBER_ID = MEMBER.MEMBER_ID
+         WHERE <![CDATA[ QNA.BOARD_NO < #{boardNo} ]]> AND QNA.STATUS = 'Y'
+         ORDER BY QNA.BOARD_NO DESC
+    ) WHERE ROWNUM = 1
+</select>
+
+
+
+<!-- 다음글 조회용 쿼리문 -->
+<select id="selectNextBoard" parameterType="_int" resultType="board">
+    SELECT *
+    FROM (
+        SELECT QNA.BOARD_NO
+             , QNA.BOARD_TITLE
+             , MEMBER.MEMBER_ID
+             , TO_CHAR(QNA.BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+             , QNA.BOARD_CONTENT
+          FROM QNA
+          INNER JOIN MEMBER ON QNA.MEMBER_ID = MEMBER.MEMBER_ID
+         WHERE QNA.BOARD_NO > #{boardNo} AND QNA.STATUS = 'Y'
+         ORDER BY QNA.BOARD_NO ASC
+    ) WHERE ROWNUM = 1
+</select>
+
+<!-- 댓글 리스트 조회용 쿼리문 -->
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT Q_REPLY_NO
+			 , MEMBER_ID
+			 , Q_REPLY_CONTENT
+			 , TO_CHAR(Q_CREATE_DATE, 'YYYY-MM-DD') AS "Q_CREATE_DATE"
+		  FROM Q_REPLY
+		 WHERE STATUS = 'Y'
+		   AND BOARD_NO = #{boardNo}
+		 ORDER BY Q_REPLY_NO DESC
+	</select>
+
+	<!-- 댓글 작성용 쿼리문 -->
+	<insert id="insertReply" parameterType="reply">
+		INSERT INTO Q_REPLY(Q_REPLY_NO
+						, Q_REPLY_CONTENT
+						, BOARD_NO
+						, MEMBER_ID)
+				   VALUES(SEQ_Q_REPLY.NEXTVAL
+				   		, #{QreplyContent}
+				   		, #{boardNo}
+				   		, #{memberId})
+	</insert>
+
+	<!--  댓글 삭제용 쿼리문 -->
+	<update id="deleteReply" parameterType="reply">
+		UPDATE Q_REPLY
+		   SET STATUS = 'N'
+		 WHERE Q_REPLY_NO = #{QreplyNo}
+	</update>
+
+</mapper>
+

@@ -1,0 +1,72 @@
+/* 페이징 버튼 */
+#page {
+  text-align: center;
+  /*border: solid red 1px;*/
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around
+}
+
+.page_btn {
+  align-items: center;
+
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.pagination li {
+  display: inline;
+  text-align: center;
+}
+
+/* 숫자들에 대한 스타일 지정 */
+.pagination a {
+  float: left;
+  display: block;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 5px 12px;
+  color: #797979;
+  line-height: 1.5;
+}
+
+.first { margin-right: 15px; }
+
+.last { margin-left: 15px; }
+
+.first:hover, .last:hover, .arrow_left:hover, .arrow_right:hover {
+  color: #146C94;
+}
+
+.pagination a:active {
+  cursor: default;
+  color: #69abce;
+}
+
+.pagination a:active {
+  outline: none;
+}
+
+.num {
+  margin-left: 3px;
+  padding: 0;
+  width: 30px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+
+.num:hover {
+  background-color: #146C94;
+  color: #ffffff;
+}
+
+.num:active, .modal .num:active {
+  background-color: #69abce;
+  cursor: pointer;
+}

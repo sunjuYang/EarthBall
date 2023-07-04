@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.cart.mapper.CartMapper">
+
+	<select id="selectList" parameterType="String" resultType="com.kh.earthball.fo.cart.vo.Cart">
+		SELECT AMOUNT, C.PRICE, PRODUCT_NAME, CHANGER_NAME, PRODUCT_NO, MEMBER_ID
+		FROM CART C
+		JOIN PRODUCT P USING (PRODUCT_NO)
+		JOIN PRODUCT_ATTA PA USING (PRODUCT_NO)
+		WHERE MEMBER_ID = #{memberId}
+		AND FILE_LEVEL = 0
+		ORDER BY CART_NO DESC
+	</select>
+
+	<update id="updateAmount" parameterType="com.kh.earthball.fo.cart.vo.Cart">
+		UPDATE CART
+		SET AMOUNT = #{amount}
+		WHERE PRODUCT_NO = #{productNo}
+		AND MEMBER_ID = #{memberId}
+	</update>
+
+	<delete id="deleteCart">
+		DELETE
+		FROM CART
+		WHERE PRODUCT_NO = #{productNo}
+		AND MEMBER_ID = #{memberId}
+	</delete>
+
+	<select id="addStatus" parameterType="com.kh.earthball.fo.cart.vo.Cart">
+		SELECT COUNT(*)
+		FROM CART
+		WHERE PRODUCT_NO = #{productNo}
+		AND MEMBER_ID = #{memberId}
+	</select>
+
+	<update id="plusAmount" parameterType="com.kh.earthball.fo.cart.vo.Cart">
+		UPDATE CART
+		SET AMOUNT = AMOUNT + #{amount}
+		WHERE PRODUCT_NO = #{productNo}
+		AND MEMBER_ID = #{memberId}
+	</update>
+
+
+	<insert id="insertCart" parameterType="com.kh.earthball.fo.cart.vo.Cart">
+		INSERT INTO CART
+		VALUES(SEQ_CART.NEXTVAL, #{amount}, #{price}, #{productNo}, #{memberId})
+	</insert>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.product.mapper.ProductMapper">
+	<!-- 베스트상품순 (주문기능 미구현으로 최신순으로 대체) -->
+	<select id="selectTopList" resultType="com.kh.earthball.fo.product.vo.Product">
+		SELECT *
+		FROM (SELECT PRODUCT_NO, PRODUCT_NAME, CATEGORY, PRICE, DISCOUNT, STOCK, CREATE_DATE, STATUS, CHANGER_NAME
+		        FROM PRODUCT
+		        JOIN PRODUCT_ATTA USING (PRODUCT_NO)
+		        WHERE STATUS = 'Y'
+		        AND FILE_LEVEL = 0
+		        ORDER BY CREATE_DATE DESC)
+		WHERE ROWNUM &lt;= 6
+	</select>
+
+	<!-- 전체상품수 조회 -->
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT
+		WHERE STATUS = 'Y'
+	</select>
+
+	<!-- 전체상품 리스트 조회 -->
+	<select id="selectAllProduct" resultType="com.kh.earthball.fo.product.vo.Product">
+		SELECT PRODUCT_NO, PRODUCT_NAME, CATEGORY, PRICE, DISCOUNT, STOCK, CREATE_DATE, STATUS, CHANGER_NAME
+		FROM PRODUCT
+		JOIN PRODUCT_ATTA USING (PRODUCT_NO)
+		WHERE STATUS = 'Y'
+		AND FILE_LEVEL = 0
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<!-- 카테고리별 상품수 조회 -->
+	<select id="selectCategoryListCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT
+		WHERE CATEGORY = #{category}
+		AND STATUS = 'Y'
+	</select>
+
+	<!-- 카테고리별 상품리스트 조회 -->
+	<select id="selectCategoryProduct" resultType="com.kh.earthball.fo.product.vo.Product">
+		SELECT PRODUCT_NO, PRODUCT_NAME, CATEGORY, PRICE, DISCOUNT, STOCK, CREATE_DATE, STATUS, CHANGER_NAME
+		FROM PRODUCT
+		JOIN PRODUCT_ATTA USING(PRODUCT_NO)
+		WHERE STATUS = 'Y'
+		AND FILE_LEVEL = 0
+		AND CATEGORY = #{category}
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<!-- 상품 상세조회(상품) -->
+	<select id="selectProduct" parameterType="int" resultType="com.kh.earthball.fo.product.vo.Product">
+		SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_INFO, CATEGORY, PRICE, DISCOUNT
+		FROM PRODUCT
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+
+	<!-- 상품 상세조회(사진) -->
+	<select id="selectAtta" parameterType="int" resultType="com.kh.earthball.fo.product.vo.Atta">
+		SELECT CHANGER_NAME, FILE_LEVEL
+		FROM PRODUCT_ATTA
+		WHERE PRODUCT_NO = #{productNo}
+		ORDER BY FILE_LEVEL
+	</select>
+
+</mapper>

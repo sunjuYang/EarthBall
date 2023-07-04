@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.store.mapper.AdminStoreMapper">
+
+	<insert id="insertStore" parameterType="com.kh.earthball.bo.store.vo.AdminStore">
+		INSERT INTO STORE(STORE_NO, 
+		STORE_NAME, 
+		STORE_ADDRESS, 
+		STORE_DETAIL_ADDRESS, 
+		STORE_PHONE, 
+		BUSINESS_HOURS, 
+		STORE_REGION_NO, 
+		STORE_INFO,
+		STATUS)
+		VALUES(SEQ_STORE.NEXTVAL, 
+		#{storeName}, 
+		#{storeAddress}, 
+		#{storeDetailAddress}, 
+		#{storePhone}, 
+		#{businessHours}, 
+		#{storeRegionNo}, 
+		#{storeInfo},
+		'N')
+	</insert>
+
+	<insert id="insertStoreAtta" parameterType="com.kh.earthball.bo.store.vo.AdminAtta">
+		INSERT INTO STORE_ATTA(ATTACHMENT_NO, CHANGER_NAME, FILE_LEVEL, STORE_NO)
+		VALUES(SEQ_STORE_ATTA.NEXTVAL, #{changerName}, #{fileLevel}, SEQ_STORE.CURRVAL)
+	</insert>
+
+	<select id="selectSignUpListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM STORE
+		WHERE STATUS = 'N'
+	</select>
+
+	<select id="selectSignUpList" resultType="com.kh.earthball.bo.store.vo.AdminStore">
+		SELECT *
+		FROM STORE
+		WHERE STATUS = 'N'
+		ORDER BY STORE_NO
+	</select>
+
+	<select id="selectListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM STORE
+		WHERE STATUS = 'Y'
+	</select>
+
+	<select id="adminAllStoreList" resultType="com.kh.earthball.bo.store.vo.AdminStore">
+		SELECT *
+		FROM STORE
+		WHERE STATUS = 'Y'
+		ORDER BY STORE_NO
+	</select>
+
+		<select id="getRegionNo" parameterType="String" resultType="_int">
+		SELECT STORE_REGION_NO
+		FROM STORE_REGION
+		WHERE CITY = #{city}
+		AND PROVINCES = #{provinces}
+	</select>
+	
+	<select id="selectStore" resultType="com.kh.earthball.bo.store.vo.AdminStore">
+		SELECT *
+		FROM STORE
+		WHERE STORE_NO = #{storeNo}
+	</select>
+	
+	<select id = "selectAtta" resultType="com.kh.earthball.bo.store.vo.AdminAtta">
+		SELECT *
+		FROM STORE_ATTA
+		WHERE STORE_NO = #{storeNo}
+		ORDER BY FILE_LEVEL
+	</select>
+	
+	<update id="updateStore" parameterType="com.kh.earthball.bo.store.vo.AdminStore">
+	    UPDATE STORE
+	    SET STORE_NAME = #{storeName},
+	        STORE_ADDRESS = #{storeAddress},
+	        STORE_DETAIL_ADDRESS = #{storeDetailAddress},
+	        STORE_PHONE = #{storePhone},
+	        BUSINESS_HOURS = #{businessHours},
+	        STORE_REGION_NO = #{storeRegionNo},
+	        STORE_INFO = #{storeInfo}
+	    WHERE STORE_NO = #{storeNo}
+	</update>
+
+		<delete id="deleteAttaAll">
+		DELETE
+		FROM STORE_ATTA
+		WHERE STORE_NO = #{storeNo}
+	</delete>
+	
+	<update id="updateStoreAtta" parameterType="com.kh.earthball.bo.store.vo.AdminAtta">
+	    INSERT INTO STORE_ATTA
+	    VALUES (SEQ_STORE_ATTA.NEXTVAL,#{changerName }, #{fileLevel}, #{storeNo})
+	</update>
+	
+	<delete id="deleteStore" >
+		DELETE STORE
+		WHERE STORE_NO = #{storeNo}
+	</delete>
+	
+	<update id="approvalStore" >
+		UPDATE STORE
+		SET STATUS = 'Y'
+		WHERE STORE_NO = #{storeNo}
+	</update>
+	
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.point.mapper.PointMapper">
+
+<!-- 포인트데이터 추가 -->
+<insert id="insertPoint" parameterType="com.kh.earthball.fo.point.vo.Point">
+	INSERT INTO POINT(POINT_NO
+								, POINT_CONTENT
+								, POINT_NUM
+								, STATUS
+								, POINT_DATE
+								, MEMBER_ID)
+					 VALUES(SEQ_POINT.NEXTVAL
+								, #{pointContent}
+								, #{pointNum}
+								, #{status}
+								, SYSDATE
+								, #{memberId}
+								)
+</insert>
+
+<!-- 회원 총 포인트 추가 -->
+<update id="plusMemberPoint" parameterType="com.kh.earthball.fo.point.vo.Point">
+	UPDATE MEMBER
+		  SET TOTAL_POINT = TOTAL_POINT + #{pointNum}
+	 WHERE MEMBER_ID = #{memberId}
+</update>
+
+<!-- 회원 총 포인트 삭감 -->
+<update id="minusMemberPoint" parameterType="com.kh.earthball.fo.point.vo.Point">
+	UPDATE MEMBER
+		  SET TOTAL_POINT = TOTAL_POINT - #{pointNum}
+	 WHERE MEMBER_ID = #{memberId}
+</update>
+
+<!-- 마이페이지 포인트 내역 갯수 조회 -->
+<select id="myPointListCount" parameterType="java.lang.String">
+	SELECT COUNT(*)
+	   FROM POINT
+	 WHERE MEMBER_ID = #{memberId}
+</select>
+
+<!-- 마이페이지 포인트 내역 리스트 조회 -->
+<select id="selectMyPoint" resultType="com.kh.earthball.fo.point.vo.Point">
+	SELECT *
+    FROM (
+        SELECT POINT_NO
+             , POINT_CONTENT
+             , POINT_NUM
+             , STATUS
+             , TO_CHAR(POINT_DATE, 'YYYY-MM-DD') AS "POINT_DATE"
+             , MEMBER_ID
+        FROM POINT
+        WHERE MEMBER_ID = #{memberId}
+        ORDER BY POINT_NO DESC
+    ) P
+    WHERE ROWNUM BETWEEN #{offset} AND #{limit}
+</select>
+
+</mapper>

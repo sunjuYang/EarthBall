@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+ /*-------------  버튼 스타일 ---------------*/
+
+   .search2>form {
+            position: relative;
+            width: 200px;
+
+        }
+
+        .search2>form>img {
+            position : absolute;
+    width: 17px;
+    top: 10px;
+    right: 30px;
+    margin: 0;
+        }
+
+        .search2>form>input {
+           border: 1px solid #bbb;
+		    border-radius: 8px;
+		    padding: 10px 12px;
+		    font-size: 14px;
+        }
+
+
+
+ /*-------------  공지사항 ---------------*/
+
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        }
+
+        #boardtext {
+        background-color:#ffffff;
+        border: solid 0.1rem #19a7ce;
+        border-radius: 0.7rem;
+        color: #19a7ce;
+        font-family : Roboto, 'Source Sans Pro';
+        font-size: 1.2rem;
+        font-weight: 500;
+        line-height: 1.1725;
+        text-align: center;
+        }
+
+        .auto-group-t8bp-ei9 {
+        align-items:  center;
+        flex-shrink:  0;
+        height : 4.6rem;
+        margin-bottom: 11.9rem;
+        width: 100%;
+        }
+
+        .btn-group { float: right; }
+
+        #list, #insertList { /* 버튼크기를 지정 */
+            height : 40px;
+            width : 90px;
+        }
+
+        #QZWUheUHEXEqWaaaEWt8BP {
+        background-color: #19a7ce;
+        box-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
+        color: #ffffff;
+        display: flex;
+        font-family: Inter, 'Source Sans Pro';
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: 1.2125;
+        white-space: nowrap;
+        width: 36.4rem;
+        }
+
+ /*-------------  버튼 스타일 ---------------*/
+
+		#page {
+		  text-align: center;
+		  display: inline-flex;
+		  align-items: center;
+		  justify-content: space-around
+		}
+		.page_btn {
+		  align-items: center;
+		}
+		.pagination {
+		  list-style: none;
+		  padding: 0;
+		  margin-top: 20px;
+		}
+		.pagination li {
+		  display: inline;
+		  text-align: center;
+		}
+		/* 숫자들에 대한 스타일 지정 */
+		.pagination a {
+		  float: left;
+		  display: block;
+		  font-size: 14px;
+		  text-decoration: none;
+		  padding: 5px 12px;
+		  color: #797979;
+		  line-height: 1.5;
+		}
+		.first { margin-right: 15px; }
+		.last { margin-left: 15px; }
+		.first:hover, .last:hover, .arrow_left:hover, .arrow_right:hover {
+		  color: #146C94;
+		}
+		.pagination a:active {
+		  cursor: default;
+		  color: #69ABCE;
+		}
+		.pagination a:active {
+		  outline: none;
+		}
+		.num {
+		  margin-left: 3px;
+		  padding: 0;
+		  width: 30px;
+		  -moz-border-radius: 100%;
+		  -webkit-border-radius: 100%;
+		  border-radius: 100%;
+		}
+		.num:hover {
+		  background-color: #146C94;
+		  color: #FFFFFF;
+		}
+		.num:active, .modal .num:active {
+		  background-color: #69ABCE;
+		  cursor: pointer;
+		}
+
+		.title{
+            width : 250px;
+            height : 70px;
+            margin : 30px 0px 0px 15px;
+            box-sizing : border-box;
+            align-items : center;
+            display : flex;
+        }
+
+           .bar {
+            width : 12px;
+            height : 70px;
+            background-color : #146C94;
+        }
+
+         .title_text{
+            width : 200px;
+            height : 50px;
+            font-size : 40px;
+            font-weight : bold;
+            padding : 0px 0px 7px 10px;
+        }

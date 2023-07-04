@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.challenge.mapper.BoChallengeMapper">
+
+    <select id="ChallengeListCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM (  SELECT C.CH_NO
+                     , GO.CATEGORY_NAME
+                     , C.CH_TITLE
+                     , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')||'~'||TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS DAY
+                     , CASE WHEN SYSDATE &lt; TO_DATE(C.CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                            WHEN SYSDATE &gt; TO_DATE(C.CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                            ELSE '진행중'
+                        END AS CH_STAT_NAME
+                     , C.MEMBER_ID
+                  FROM TB_CHALLENGE C
+                  JOIN TB_CATEGORY GO ON C.CATEGORY_NO = GO.CATEGORY_NO )
+    </select>
+
+    <select id="selectChallengeList" parameterType="java.lang.Integer" resultType="com.kh.earthball.bo.challenge.vo.BoChallenge">
+        SELECT *
+        FROM ( SELECT C.CH_NO
+             , GO.CATEGORY_NAME
+             , C.CH_TITLE
+             , CASE WHEN TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') = TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                        THEN TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                    ELSE TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') || ' ~ ' || TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                END AS DAY
+             , CASE WHEN SYSDATE &lt; TO_DATE(C.CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                    WHEN SYSDATE &gt; TO_DATE(C.CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                    ELSE '진행중'
+                END AS CH_STAT_NAME
+             , C.MEMBER_ID
+             , ROW_NUMBER() OVER (ORDER BY CH_NO) AS ROW_NUM
+          FROM TB_CHALLENGE C
+          JOIN TB_CATEGORY GO ON C.CATEGORY_NO = GO.CATEGORY_NO )
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <select id="selectChallenge" parameterType="java.lang.Integer" resultType="com.kh.earthball.bo.challenge.vo.BoChallenge">
+        SELECT CH_NO
+             , CH_TITLE
+             , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+             , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+             , CASE
+                   WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                   WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                   ELSE '진행중'
+            END AS CH_STAT_NAME
+         , MEMBER_ID
+             , CATEGORY_NO
+             , FILE_NO
+             , (SELECT CATEGORY_NAME
+                FROM TB_CATEGORY CA
+                WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+             , (SELECT FILE_PATH
+                FROM TB_CHA_FILE F
+                WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+             , CH_CONTENT
+        FROM TB_CHALLENGE C
+        WHERE CH_NO = #{chNo}
+          AND STATUS = 'Y'
+    </select>
+
+    <update id="deleteChallenge" parameterType="java.lang.Integer">
+        UPDATE TB_CHALLENGE
+           SET STATUS = 'N'
+         WHERE CH_NO = #{chNo}
+    </update>
+
+    <select id="searchChallengeListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM ( SELECT C.CH_NO
+                    , GO.CATEGORY_NAME
+                    , C.CH_TITLE
+                    , C.MEMBER_ID
+                    , C.CH_CONTENT
+               FROM TB_CHALLENGE C
+               JOIN TB_CATEGORY GO ON C.CATEGORY_NO = GO.CATEGORY_NO
+              WHERE C.STATUS = 'Y'
+                AND GO.STATUS = 'Y') CHALL
+        WHERE CHALL.CH_TITLE LIKE '%' || #{keyword} || '%'
+           OR CHALL.MEMBER_ID LIKE '%' || #{keyword} || '%'
+           OR CHALL.CH_CONTENT LIKE '%' || #{keyword} || '%'
+           OR CHALL.CATEGORY_NAME LIKE '%' || #{keyword} || '%'
+    </select>
+
+
+    <select id="searchChallenge" parameterType="com.kh.earthball.bo.challenge.vo.SearchParameters" resultType="com.kh.earthball.bo.challenge.vo.BoChallenge">
+        SELECT *
+        FROM ( SELECT CHALL.*
+                    , ROW_NUMBER() OVER (ORDER BY CHALL.CH_NO) AS ROW_NUM
+                 FROM ( SELECT C.CH_NO
+                             , GO.CATEGORY_NAME
+                             , C.CH_TITLE
+                             , CASE WHEN TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') = TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                                    THEN TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                                    ELSE TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') || ' ~ ' || TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+                                END AS DAY
+                             , CASE WHEN SYSDATE &lt; TO_DATE(C.CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                                    WHEN SYSDATE &gt; TO_DATE(C.CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                                    ELSE '진행중'
+                                END AS CH_STAT_NAME
+                             , C.MEMBER_ID
+                             , C.CH_CONTENT
+                          FROM TB_CHALLENGE C
+                          JOIN TB_CATEGORY GO ON C.CATEGORY_NO = GO.CATEGORY_NO
+                         WHERE C.STATUS = 'Y'
+                           AND GO.STATUS = 'Y') CHALL
+               WHERE CHALL.CH_TITLE LIKE '%' || #{keyword} || '%'
+                  OR CHALL.MEMBER_ID LIKE '%' || #{keyword} || '%'
+                  OR CHALL.CATEGORY_NAME LIKE '%' || #{keyword} || '%'
+                  OR CHALL.CH_CONTENT LIKE '%' || #{keyword} || '%' )
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+</mapper>

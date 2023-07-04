@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" href="https://kenwheeler.github.io/slick/slick/slick-theme.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(function(){
+            $('.mainSlide').slick({
+                dots: true,
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite : true
+            });
+            // $('.mainSlide').slick({
+            //     dots: true,
+            //     infinite: true,
+            //     speed: 500,
+            //     fade: true,
+            //     cssEase: 'linear'
+            // });
+        })
+        $(function(){
+            $('.diarySlide').slick({
+                autoplay : true,
+                autoplaySpeed : 1000,
+                speed : 2000,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            })
+        })
+    </script>
+
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            min-width: 1500px;
+        }
+
+        /* header */
+        #headers{
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 9999;
+            background-color: white;
+            min-width: 1200px;
+        }
+        .header{
+            width: 1200px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu{
+            width: 1200px;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .login-area{
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+            margin-top: 30px;
+            color: #19A7CE;
+        }
+        .login-area a{
+            text-decoration: none;
+            color: #19A7CE;
+        }
+        .logo{
+            width: 250px;
+        }
+
+        /* 드롭다운 */
+        .dropdown{
+            position : relative;
+            display : inline-block;
+        }
+        .dropdown-content{
+            display : none;
+            position : absolute;
+            z-index : 1; /*다른 요소들보다 앞에 배치*/
+            background-color : white;
+            width : 100px;
+            border-radius : 8px;
+            box-shadow : 0 0 10px rgba(0,0,0,0.2);
+        }
+        .dropdown-content a{
+            display : block;
+            text-decoration : none;
+            color : black;
+            padding: 10px;
+        }
+        .dropdown-content a:hover{
+            background-color : #19A7CE;
+            color : white;
+            border-radius: 8px;
+        }
+        .dropdown:hover .dropdown-content{
+            display : block;
+        }
+        .dropdown>span{
+            display: block;
+            padding: 20px;
+            cursor: pointer;
+            color: #19A7CE;
+        }
+        .dropdown-content a{
+            color : #19A7CE;
+        }
+
+        .search>form {
+            position: relative;
+            width: 200px;
+        }
+
+        .search>form>input {
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .search>form>img {
+            position : absolute;
+            width: 17px;
+            top: 10px;
+            right: 1px;
+            margin: 0;
+        }
+
+        /* ---------------------------------- */
+
+        /* 메인영역 */
+        #container{
+            width: 1200px;
+            height: 3000px;
+            margin: 0 auto;
+            padding-top: 170px;
+            /* background-color: aliceblue; */
+        }
+
+        #title {
+            width : 100%;
+            height : 130px;
+            padding-top : 20px;
+            /* border : 1px solid red; */
+        }
+
+        #title_1 {
+            width : 250px;
+            height : 70px;
+            margin : 30px 0px 0px 15px;
+            box-sizing : border-box;
+            /* border : 1px solid red; */
+            align-items : center;
+            display : flex;
+        }
+
+        #title_text {
+            width : 200px;
+            height : 50px;
+            font-size : 40px;
+            font-weight : bold;
+            padding : 0px 0px 7px 10px;
+            /* border : 1px solid red; */
+        }
+
+        #content {
+            width : 85%;
+            margin: auto;
+            /* border : 1px solid red; */
+        }
+
+        #content1 {
+            width : 100%;
+            /* border : 1px solid red; */
+        }
+
+        #content1>table {
+            width : 100%;
+            border-top : 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        #content1>table th, #content1>table td {
+            border-bottom: 1px solid #444444;
+            border-left : 1px solid #444444;
+        }
+
+        #content1>table th:first-child , #content1>table td:first-child {
+            border-left : none;
+        }
+
+        #content1 span {
+            font-size : 18px;
+            font-weight : 500;
+        }
+
+        #content1 th {
+            font-size : 18px;
+            font-weight : 500;
+        }
+
+        #content2 {
+            width : 330px;
+            margin : auto;
+            padding-top : 40px;
+            /* border : 1px solid red; */
+        }
+
+        #bar_1 {
+            width : 12px;
+            height : 70px;
+            background-color : #146C94;
+        }
+
+        #product_img {
+            width : 70%;
+            height : 70%;
+            margin : auto;
+        }
+
+        #product_name {
+            font-size : 18px;
+            padding-left : 30px;
+        }
+
+        #product_amount {
+            font-size : 20px;
+            font-weight : bold;
+            text-align : center;
+        }
+
+        #product_totalPrice {
+            font-size : 20px;
+            font-weight : 600;
+            color : #19A7CE;
+            text-align : center;
+        }
+
+        #total_product_amount {
+            width : 100%;
+            height : 40px;
+            line-height : 40px;
+            padding-left : 20px;
+        }
+
+        #totalAmount {
+            color: #19A7CE;
+            font-weight : bold;
+        }
+
+        #goMain {
+            width : 330px;
+            height : 50px;
+            font-size : 20px;
+            color : white;
+            background-color : #19A7CE;
+            border-style: none; 
+            border-radius : 30px;
+        }
+
+        #goMain:hover {
+            cursor : pointer;
+            background-color : #146C94;
+        }
+
+        /* ---------------------------------- */
+        /* footer */
+        #footer{
+            width: 100%;
+            height: 220px;
+            margin: 0 auto;
+            background-color: #19A7CE;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로그인 영역 -->
+    <div id="headers">
+        <div class="header">
+            <div style="width: 120px;"></div>
+            <div class="logo">
+                <a href=""><img src="../../resources/img/logo.png" style="width: 250px;"></a>
+            </div>
+            <div class="login-area">
+                <div><a href="">로그인</a></div>&nbsp;|&nbsp;
+                <div><a href="">회원가입</a></div>
+            </div>
+        </div>
+        <!-- 매뉴바 -->
+        <div class="menu">
+            <div>
+                <div class="dropdown">
+                    <span class="dropbtn">장보기</span>
+                    <div class="dropdown-content">
+                        <a href="">선물꾸러미</a>
+                        <a href="">욕실</a>
+                        <a href="">식품</a>
+                        <a href="">주방</a>
+                        <a href="">생활</a>
+                        <a href="">취미</a>
+                        <a href="">음료용품</a>
+                        <a href="">여성용품</a>
+                        <a href="">반려동물</a>
+                        <a href="">화장품</a>
+                        <a href="">문구</a>
+                        <a href="">전체</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">지구소개</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">챌린지</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">환경일기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">매장찾기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">고객센터</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+            </div>
+            
+    
+            <div class="search">
+                <form action="">
+                    <input type="text" placeholder="검색어 입력">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                </form>
+            </div>
+    
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="title">
+            <div id="title_1">
+                <div id="bar_1"></div>
+                <div id="title_text">결제완료</div>
+            </div>
+        </div>
+
+        <div id="content">
+            <div id="content1">
+                <table>
+                    <tr >
+                        <td colspan="2" width="50%" height="40" style="padding-left : 40px;">
+                            <span>주문번호</span>
+                            <span>2023050000001</span>
+                        </td>
+                        <th style="width : 20%; border-left : none;">주문수량</th>
+                        <th style="width : 28%; border-left : none;">결제금액</th>
+                    </tr>
+                    <tr>
+                        <td width="15%" height="120">
+                            <div id="product_img">
+                                <img src="../../resources/img/peng.jpg" alt="상품이미지" width="100%" height="100%">
+                            </div>
+                        </td>
+                        <td style="border-left : none;">
+                            <div id="product_name">
+                                상품명 ~~~~~~~~~~~~
+                            </div>
+                        </td>
+                        <td>
+                            <div id="product_amount">
+                                1
+                            </div>
+                        </td>
+                        <td rowspan="3">
+                            <div id="product_totalPrice">
+                                33,000원
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%" height="120">
+                            <div id="product_img">
+                                <img src="../../resources/img/peng.jpg" alt="상품이미지" width="100%" height="100%">
+                            </div>
+                        </td>
+                        <td style="border-left : none;">
+                            <div id="product_name">
+                                상품명 ~~~~~~~~~~~~
+                            </div>
+                        </td>
+                        <td>
+                            <div id="product_amount">
+                                1
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%" height="120">
+                            <div id="product_img">
+                                <img src="../../resources/img/peng.jpg" alt="상품이미지" width="100%" height="100%">
+                            </div>
+                        </td>
+                        <td style="border-left : none;">
+                            <div id="product_name">
+                                상품명 ~~~~~~~~~~~~
+                            </div>
+                        </td>
+                        <td>
+                            <div id="product_amount">
+                                1
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div id="total_product_amount">
+                                <span>총 주문 상품 <span id="totalAmount">3</span> 개</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="content2">
+                <input type="button" id="goMain" value="메인페이지로">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer">
+        <div style="width: 100px;"></div>
+        <div><img src="../../resources/img/logo2.png" style="width: 400px; padding-top: 20px;"></div>
+        <div style="margin-top: 30px; color: white;">
+            <p style="font-weight: bold;">
+                이용약관  |  개인정보처리방침  |  도매 전용 B2B몰
+            </p>
+            <p>
+                회사명 : 주식회사 인수온송민근 | 대표자 : 양선주 <br>
+                주소 : 서울시 금천구 가산디지털2로 165, 1001호 | 이메일 : contact@jigugong.co.kr | 팩스 : 0303-3444-2050 <br>
+                사업자등록번호 : 689-86-00791 | 통신판매업신고 : 제2018-서울동작-02955 | 건강기능식품영업신고 : 제2022-0112707 <br>
+                개인정보보호책임자 : 양선주 | 고객센터 : 02-812-2050 | 호스팅 제공자 : (주)지구공 
+            </p>
+        </div>
+        <div style="width: 100px;"></div>
+    </div>
+
+</body>
+</html>

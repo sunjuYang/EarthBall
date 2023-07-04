@@ -1,0 +1,296 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    min-width: 1500px;
+}
+
+/* header */
+#headers{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    background-color: white;
+    min-width: 1200px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+.header{
+    width: 1200px;
+    height: 120px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.menu{
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.login-area{
+    display: flex;
+    justify-content: space-between;
+    width: 130px;
+    margin-top: 30px;
+    color: #19a7ce;
+}
+.login-area a{
+    text-decoration: none;
+    color: #19a7ce;
+}
+.logo{
+    width: 250px;
+}
+
+/* 드롭다운 */
+.dropdown{
+    position : relative;
+    display : inline-block;
+}
+.dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 1; /*다른 요소들보다 앞에 배치*/
+    background-color : white;
+    width : 100px;
+    border-radius : 8px;
+    box-shadow : 0 0 10px rgba(0,0,0,0.2);
+}
+.dropdown-content a{
+    display : block;
+    text-decoration : none;
+    color : black;
+    padding: 10px;
+}
+.dropdown-content a:hover{
+    background-color : #19a7ce;
+    color : white;
+    border-radius: 8px;
+}
+.dropdown:hover .dropdown-content{
+    display : block;
+}
+.dropdown>span{
+    display: block;
+    padding: 20px;
+    cursor: pointer;
+    color: #19a7ce;
+}
+.dropdown-content a{
+    color : #19a7ce;
+}
+
+.search>form {
+    position: relative;
+    width: 200px;
+}
+
+.search>form>input {
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.search>form>i {
+    position : absolute;
+    width: 17px;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+}
+
+/* ---------------------------------- */
+
+/* 메인영역 */
+#container{
+    width: 1200px;
+    height: 3000px;
+    margin: 0 auto;
+    padding-top: 170px;
+    /* background-color: aliceblue; */
+}
+
+/* 매인 배너 */
+.mainSlide { 
+    position: relative;
+    margin-top: 50px;
+}
+.mainSlide img { 
+    width: 100%;
+    height: 550px;
+}
+.mainSlide button { 
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.5);
+}
+.mainSlide button::before{
+    font-family: 'xeicon'; 
+    color: #fff; 
+    font-size: 30px;
+}
+.mainSlide button.slick-prev {
+    left: 50px; 
+    font-size: 0; 
+    color: transparent;
+}
+.mainSlide button.slick-prev:before{
+    content:"\e93d";
+}
+.mainSlide button.slick-next {
+    right: 50px; 
+    font-size: 0; 
+    color: transparent;
+}
+.mainSlide button.slick-next::before{
+    content:"\e940";
+}
+.slick-dots{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* 베스트아이템 */
+#bestArea{
+    width: 100%;
+    height: 700px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    
+}
+#bestList{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 50% 50%;
+    margin-right: 30px;
+}
+#bestList>div{
+    border: 1px solid #19a7ce;
+    margin: 10px;
+}
+#bestList>div>img{
+    width: 100%;
+}
+#bestText{
+    margin-left: 20px;
+}
+#bestImg{
+    margin-left: 20px;
+    width: 300px; 
+    height: 300px; 
+    border-radius: 100%; 
+    margin-top: 100px;
+}
+/* 챌린지 */
+#challengeArea{
+    margin-top: 50px;
+}
+#challengeBox{
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+#challengeList{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 300px;
+    margin-top: 50px;
+}
+#challengeList>div{
+    border: 1px solid black;
+}
+#challengeText{
+    margin-left: 20px;
+}
+#challengeImg{
+    width: 100%;
+    height: 400px;
+}
+/* 에코다이어리 */
+#diaryArea{
+    margin-top: 50px;
+}
+#diaryBox{
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+#diaryText{
+    margin-left: 20px;
+}
+#diaryImg{
+    width: 100%;
+    height: 400px;
+}
+/* 에코다이어리-슬라이드 */
+.diarySlide { 
+    position: relative;
+    margin-top: 60px;
+}
+.diarySlide img { 
+    width: 200px;
+    height: 300px;
+}
+.diarySlide button { 
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+}
+.diarySlide button::before{
+    font-family: 'xeicon'; 
+    color: #fff; 
+    font-size: 45px;
+}
+.diarySlide button.slick-prev {
+    left: 50px; 
+    font-size: 0; 
+    color: transparent;
+}
+.diarySlide button.slick-prev:before{
+    content:"\e93d";
+}
+.diarySlide button.slick-next {
+    right: 50px; 
+    font-size: 0; 
+    color: transparent;
+}
+.diarySlide button.slick-next::before{
+    content:"\e940";
+}
+.slick-dots{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* ---------------------------------- */
+/* footer */
+#footer{
+    width: 100%;
+    height: 220px;
+    margin: 0 auto;
+    background-color: #19a7ce;
+    display: flex;
+    justify-content: space-evenly;
+}

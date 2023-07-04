@@ -1,0 +1,254 @@
+.wrap div {
+   /* border: 1px solid red; */
+    /* 지금부터 지정하는 가로세로길이는 테두리까지 포함한 사이즈임 */
+    box-sizing: border-box;
+}
+
+/* 전체를 감싸는 wrap*/
+.wrap {
+    width: 1200px;
+    height: 2300px;
+    margin: auto; /* 좌우로 항상 정정가운데에 위치시켜주는 속성 */
+    padding-top: 170px;
+    /* position : relative; */
+}
+
+/* 크게 세가지 영역 */
+/* header, content, footer */
+/* #header, #content, #footer {
+    width: 100%;
+} */
+
+.wrap>div { width: 100%; }
+
+/* 영역별 높이 */
+#banner { height: 15%; }
+#filter { height: 10% ;}
+#title { height: 5% ;}
+#content { height: 70%; }
+
+
+/* 영역별 너비 */
+#title>div, #content>div { 
+    float: left;
+}
+
+#title_1 { width: 80% ;}
+#title_2 { width: 20% ;}
+
+
+
+#title_1 {
+    box-sizing : border-box;
+    align-items : center;
+    display : flex;
+}
+
+#title_2 {
+    box-sizing : border-box;
+    align-items : center;
+    display : flex;
+    justify-content: space-around;
+}
+
+#title_text {
+    width : 500px;
+    height : 50px;
+    font-size : 40px;
+    font-weight : bold;
+    padding : 0px 0px 7px 10px;
+    border : 1px solid red;
+}
+
+#bar_1 {
+    width : 12px;
+    height : 70px;
+    background-color : #146C94;
+}
+
+.btn_1 {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    width: 200px;
+    height: 50px;
+    color: white;
+    font-weight: 700px;
+    font-size: 20px;
+}
+
+#filter {
+    background-color: #c7c6c64a ;
+    border-radius: 4px;
+}
+
+
+#filter_1>div>ul>li a {
+    text-align: center;
+    justify-content: center;
+}
+
+#filter_1, #filter_2, #filter_3 { 
+    height: 28%;
+    text-align: center;
+    align-items: center;
+}
+
+
+#filter_1>h3, #filter_1>div>ul>li, #filter_2>h3, #filter_2>div>ul>li, #filter_3>h3, #filter_3>div>ul>li { 
+    padding:  0px 20px;
+    display: grid;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+.btn_2 {
+    border: solid 1px #69abce;
+    background-color: white;
+    color: #69abce;
+    border-radius: 7px;
+    width: 120px;
+    padding: 10px 0px;
+    font-size: 15px;
+    text-decoration: none;
+   
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.btn_2:hover {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    color: white;
+    font-weight: 700px;
+    font-size: 20px;
+}
+
+
+/* content 영역 */
+#content_1 { width: 75%;}
+#content_2 { width: 25%;}
+
+#content_2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: groove 2px #c7c6c694;
+}
+
+
+.chall_Card {
+    width: 280px;
+    height: 350px;
+    border: solid 1px #c7c6c694;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #c7c6c694;
+    display: inline-block;
+    margin: 6px;
+    margin-top: 20px;
+}
+
+.chall_Card:hover {
+    box-shadow: 5px 5px 5px  #69abce;
+    transform: translate(-5%, -5%);
+    transition-delay: 0.1s;
+    transition-duration: 0.6s;
+    cursor: pointer;
+}
+
+.chall_Card img {
+    width: 95%;
+    height: 160px;
+    display: block;
+    margin-left: 7px;
+    margin-bottom: 10px;
+    margin-top: 7px;
+    border-radius: 5px;
+}
+
+
+.userId {
+    margin: 5px;
+}
+
+/* 챌린지 카드의 데이트 속성 */
+.chall_Date>span {
+    text-align: center;
+}
+
+
+/* 챌린지 카드의 태그 속성 */
+.chall_Tag>ul>li span {
+    text-align: center;
+    justify-content: center;
+    width: 90px;
+    font-size: 15px;
+    padding: 7px;
+}
+
+.chall_Tag { 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+.chall_Tag>ul {
+    padding-left: 5px;
+}
+*/
+
+.chall_Tag>ul>li { 
+    display:inline-block;
+    float: left;
+    margin: 5px;
+}
+
+
+.tag {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    width: 200px;
+    height: 50px;
+    color: white;
+    font-weight: 700px;
+}
+
+
+
+/* Hot 챌린지 */
+.hot_chall {
+    width: 93%;
+    height: 90px;
+    border: solid 1px #c7c6c694;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #c7c6c694;
+    display: inline-block;
+    margin: 6px;
+    margin-top: 20px;
+}
+
+.hot_one {
+    padding: 7px;
+}
+
+.hot_title {
+   font-size: 18px;
+   font-weight: 900px;
+   color: #146C94;
+}
+
+.tags {
+    color: rgb(169, 169, 169);
+}
+
+
+
+
+/* 슬라이더 배너 */

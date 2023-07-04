@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.challenge.mapper.CategoryTemplateMapper">
+
+    <select id="selectTemplateListNo" parameterType="Integer" resultType="com.kh.earthball.bo.challenge.vo.CategoryTemplate">
+        SELECT CATEGORY_TEMPLATE_NO
+             , INPUT_TYPE
+             , SORT_NO
+             , CH_SUB_TITLE
+             , GRP_CODE
+             , CATEGORY_NO
+          FROM TB_CATEGORY_TEMPLATE
+         WHERE STATUS = 'Y'
+           AND CATEGORY_NO = #{categoryNo}
+         ORDER BY SORT_NO ASC
+
+    </select>
+
+    <insert id="insertTemplate" parameterType="com.kh.earthball.bo.challenge.vo.CategoryTemplate">
+        INSERT INTO TB_CATEGORY_TEMPLATE ( CATEGORY_TEMPLATE_NO
+                                         , INPUT_TYPE
+                                         , SORT_NO
+                                         , CH_SUB_TITLE
+                                         , GRP_CODE
+                                         , CATEGORY_NO
+                                         , STATUS)
+                                  VALUES ( SEQ_TB_CATEGORY_TEMPLATE.NEXTVAL
+                                         , #{inputType}
+                                         , #{sortNo}
+                                         , #{chSubTitle}
+                                         , #{grpCode}
+                                         , #{categoryNo}
+                                         , 'Y')
+    </insert>
+
+    <select id="selectTemplateForm" parameterType="java.lang.Integer" resultType="com.kh.earthball.bo.challenge.vo.CategoryTemplate">
+        SELECT CATEGORY_TEMPLATE_NO
+             , INPUT_TYPE
+             , STATUS
+             , SORT_NO
+             , CH_SUB_TITLE
+             , GRP_CODE
+             , CATEGORY_NO
+          FROM TB_CATEGORY_TEMPLATE
+         WHERE CATEGORY_TEMPLATE_NO = #{categoryTemplateNo}
+           AND STATUS = 'Y'
+    </select>
+
+    <update id="updateTemplate" parameterType="com.kh.earthball.bo.challenge.vo.CategoryTemplate">
+        UPDATE TB_CATEGORY_TEMPLATE
+           SET INPUT_TYPE = #{inputType}
+             , CH_SUB_TITLE = #{chSubTitle}
+             , GRP_CODE = #{grpCode}
+             , SORT_NO = #{sortNo}
+         WHERE CATEGORY_TEMPLATE_NO = #{categoryTemplateNo}
+           AND CATEGORY_NO = #{categoryNo}
+           AND STATUS = 'Y'
+    </update>
+
+    <update id="deleteTemplate" parameterType="java.lang.Integer">
+        UPDATE TB_CATEGORY_TEMPLATE
+           SET STATUS = 'N'
+         WHERE CATEGORY_TEMPLATE_NO = #{categoryTemplateNo}
+    </update>
+
+</mapper>

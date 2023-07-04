@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.challenge.mapper.FileUpladMapper">
+
+  <insert id="insertChaFile" parameterType="com.kh.earthball.fo.challenge.vo.ChaFile">
+    INSERT INTO TB_CHA_FILE (
+        FILE_NO
+        , FILE_NAME
+        , FILE_PATH
+    ) VALUES (
+          #{fileNo}
+       , #{fileName}
+       , #{filePath}
+    )
+  </insert>
+
+  <select id="getFileNo" resultType="java.lang.Integer">
+    SELECT SEQ_TB_CHA_FILE.NEXTVAL
+      FROM DUAL
+  </select>
+
+</mapper>

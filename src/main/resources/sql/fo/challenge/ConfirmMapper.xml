@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.challenge.mapper.ConfirmMapper">
+
+    <insert id="insertConfirm" parameterType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        <selectKey keyProperty="chConNo" resultType="java.lang.Integer" order="BEFORE">
+            SELECT SEQ_TB_CH_CONFIRM.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO TB_CH_CONFIRM(CH_CON_NO
+        , CH_NO
+        , CH_CON_TITLE
+        , MEMBER_ID
+        , STATUS
+        , CH_CON_CREATE_DATE)
+        VALUES (#{chConNo}
+        , #{chNo}
+        , #{chConTitle}
+        , #{memberId}
+        , 'Y'
+        , SYSDATE)
+    </insert>
+
+    <update id="updateConfirm" parameterType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        UPDATE TB_CH_CONFIRM
+           SET CH_CON_TITLE = #{chConTitle}
+             , CH_CON_CREATE_DATE = SYSDATE
+        WHERE CH_NO = #{chNo}
+          AND CH_CON_NO = #{chConNo}
+          AND MEMBER_ID = #{memberId}
+    </update>
+
+    <delete id="deleteDetailInfo" parameterType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        DELETE FROM TB_CH_DETAIL_INFO
+        WHERE CH_NO = #{chNo}
+          AND CH_CON_NO = #{chConNo}
+    </delete>
+
+    <insert id="insertDetailInfo" parameterType="com.kh.earthball.fo.challenge.vo.ChDetailInfo">
+        INSERT INTO TB_CH_DETAIL_INFO ( CH_DETAIL_INFO_NO
+                                      , CH_NO
+                                      , CH_CON_NO
+                                      , CATEGORY_TEMPLATE_NO
+                                      , CH_DETAIL_INFO_DATA
+                                      , STATUS
+                                      , CODE
+                                      , FILE_NO)
+        VALUES ( SEQ_TB_CH_DETAIL_INFO.NEXTVAL
+               , #{chNo}
+               , #{chConNo}
+               , #{categoryTemplateNo}
+               , #{chDetailInfoData}
+               , 'Y'
+               , #{code}
+               , #{fileNo})
+    </insert>
+
+    <select id="selectListCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM TB_CH_CONFIRM
+        WHERE CH_NO = #{chNo}
+          AND STATUS = 'Y'
+    </select>
+
+
+    <select id="selectConfirmList" parameterType="java.lang.Integer"
+            resultType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        SELECT *
+        FROM (SELECT CH_CON_NO
+                   , CH_NO
+                   , CH_CON_TITLE
+                   , MEMBER_ID
+                   , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                   , ROW_NUMBER()                                 OVER (ORDER BY CH_NO) AS ROW_NUM
+              FROM TB_CH_CONFIRM
+              WHERE STATUS = 'Y'
+                AND CH_NO = #{chNo})
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <select id="selectConfirm" parameterType="java.lang.Integer"
+            resultType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        SELECT CC.CH_NO
+             , CC.CH_CON_NO
+             , CC.CH_CON_TITLE
+             , CC.MEMBER_ID
+             , TO_CHAR(CC.CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+             , (SELECT CATEGORY_NO
+                FROM TB_CHALLENGE tc
+                WHERE CH_NO =(SELECT CH_NO
+                              FROM TB_CH_CONFIRM
+                              WHERE CH_CON_NO = #{chConNo})) CATEGORY_NO
+        FROM TB_CH_CONFIRM CC
+        WHERE CH_CON_NO =  #{chConNo}
+          AND STATUS = 'Y'
+    </select>
+
+    <select id="selectDetailInfoList" parameterType="com.kh.earthball.fo.challenge.vo.ChDetailInfoParam"
+            resultType="com.kh.earthball.fo.challenge.vo.ChDetailInfo">
+        SELECT tcdi.CH_DETAIL_INFO_NO
+             , tcdi.CATEGORY_TEMPLATE_NO
+             , tcdi.CH_DETAIL_INFO_DATA
+             , tcdi.CODE
+             , tcdi.FILE_NO
+             , tcdi.CH_CON_NO
+             , tcf.FILE_PATH
+             , tcf.FILE_NAME
+        FROM TB_CH_DETAIL_INFO tcdi
+        LEFT JOIN TB_CHA_FILE tcf
+        ON tcdi.FILE_NO = tcf.FILE_NO
+        WHERE tcdi.STATUS = 'Y'
+          AND tcdi.CH_CON_NO = #{chConNo}
+          AND tcdi.CH_NO = #{chNo}
+          AND tcdi.CATEGORY_TEMPLATE_NO = #{categoryTemplateNo}
+    </select>
+
+    <update id="deleteConfirm" parameterType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        UPDATE TB_CH_CONFIRM
+           SET STATUS = 'N'
+         WHERE CH_CON_NO = #{chConNo}
+           AND MEMBER_ID = #{memberId}
+    </update>
+
+    <insert id="insertReply" parameterType="com.kh.earthball.fo.challenge.vo.ChConReply">
+        INSERT INTO TB_CH_CON_REPLY (RE_NO
+                                   , CH_CON_NO
+                                   , CH_NO
+                                   , RE_CONTENT
+                                   , RE_CREATE_DATE
+                                   , STATUS
+                                   , MEMBER_ID)
+                            VALUES (SEQ_TB_CH_CON_REPLY.NEXTVAL
+                                  , #{chConNo}
+                                  , #{chNo}
+                                  , #{reContent}
+                                  , SYSDATE
+                                  , 'Y'
+                                  , #{memberId})
+    </insert>
+
+    <select id="selectReplyList" parameterType="com.kh.earthball.fo.challenge.vo.ChConReply" resultType="com.kh.earthball.fo.challenge.vo.ChConReply">
+        SELECT RE_NO
+             , CH_CON_NO
+             , CH_NO
+             , RE_CONTENT
+             , TO_CHAR(RE_CREATE_DATE, 'YYYY-MM-DD') AS RE_CREATE_DATE
+             , STATUS
+             , MEMBER_ID
+        FROM TB_CH_CON_REPLY
+        WHERE CH_CON_NO = #{chConNo}
+          AND CH_NO = #{chNo}
+          AND STATUS = 'Y'
+    </select>
+
+    <update id="deleteReply" parameterType="java.lang.Integer">
+        UPDATE TB_CH_CON_REPLY
+           SET STATUS = 'N'
+         WHERE RE_NO = #{reNo}
+    </update>
+
+    <select id="myConfirmListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+          FROM ( SELECT CH_NO
+                      , CH_CON_NO
+                      , CH_CON_TITLE
+                      , MEMBER_ID
+                      , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                 FROM TB_CH_CONFIRM
+                 WHERE MEMBER_ID = #{memberId}
+                   AND STATUS = 'Y' )
+    </select>
+
+    <select id="selectMyConfirm" resultType="com.kh.earthball.fo.challenge.vo.ChConfirm">
+        SELECT *
+        FROM ( SELECT CH_NO
+                    , CH_CON_NO
+                    , CH_CON_TITLE
+                    , MEMBER_ID
+                    , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                    , ROW_NUMBER() OVER (ORDER BY CH_NO) AS ROW_NUM
+                FROM TB_CH_CONFIRM
+               WHERE MEMBER_ID = #{memberId}
+                 AND STATUS = 'Y' )
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+</mapper>

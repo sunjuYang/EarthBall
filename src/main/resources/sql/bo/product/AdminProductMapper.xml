@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.product.mapper.AdminProductMapper">
+
+	<insert id="insertProduct" parameterType="com.kh.earthball.bo.product.vo.AdminProduct">
+		INSERT INTO PRODUCT(PRODUCT_NO, PRODUCT_NAME, CATEGORY, PRICE, DISCOUNT, STOCK, PRODUCT_INFO)
+		VALUES(SEQ_PRODUCT.NEXTVAL, #{productName}, #{category}, #{price}, #{discount}, #{stock}, #{productInfo})
+	</insert>
+
+	<insert id="insertProductAtta" parameterType="com.kh.earthball.bo.product.vo.AdminAtta">
+		INSERT INTO PRODUCT_ATTA
+		VALUES(SEQ_PRODUCT_ATTA.NEXTVAL, #{changerName}, #{fileLevel}, SEQ_PRODUCT.CURRVAL)
+	</insert>
+
+	<select id="adminAllProductList" resultType="com.kh.earthball.bo.product.vo.AdminProduct">
+		SELECT *
+		FROM PRODUCT
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT
+	</select>
+
+	<select id="selectDetailView" resultType="com.kh.earthball.bo.product.vo.AdminProduct">
+		SELECT PRODUCT_NO, PRODUCT_NAME, CATEGORY, PRICE, DISCOUNT, STOCK, STATUS, PRODUCT_INFO
+		FROM PRODUCT
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+
+	<select id="selectDetailviewAtta" resultType="com.kh.earthball.bo.product.vo.AdminAtta">
+		SELECT CHANGER_NAME, FILE_LEVEL
+		FROM PRODUCT_ATTA
+		WHERE PRODUCT_NO = #{productNo}
+		ORDER BY FILE_LEVEL
+	</select>
+
+	<update id="updateProduct" parameterType="com.kh.earthball.bo.product.vo.AdminProduct">
+		UPDATE PRODUCT
+		SET PRODUCT_NAME = #{productName},
+			CATEGORY = #{category},
+			PRICE = #{price},
+			DISCOUNT = #{discount},
+			STOCK = #{stock},
+			PRODUCT_INFO = #{productInfo}
+		WHERE PRODUCT_NO = #{productNo}
+	</update>
+
+	<delete id="deleteAttaAll">
+		DELETE
+		FROM PRODUCT_ATTA
+		WHERE PRODUCT_NO = #{productNo}
+	</delete>
+
+	<update id="updateProductAtta" parameterType="com.kh.earthball.bo.product.vo.AdminAtta">
+		INSERT INTO PRODUCT_ATTA
+		VALUES (SEQ_PRODUCT_ATTA.NEXTVAL, #{changerName }, #{fileLevel}, #{productNo})
+	</update>
+
+	<update id="updateStatus">
+		UPDATE PRODUCT
+		SET STATUS = #{status}
+		WHERE PRODUCT_NO = #{productNo}
+	</update>
+
+</mapper>

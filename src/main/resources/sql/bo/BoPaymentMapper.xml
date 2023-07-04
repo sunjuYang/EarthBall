@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.payment.mapper.BoPaymentMapper">
+
+<!-- 관리자페이지 주문취소 개수 조회 -->
+<select id="cancelPayListCount">
+	SELECT COUNT(*)
+       FROM PAYMENT P
+     WHERE P.STATUS = 'R'
+</select>
+
+<!-- 관리자페이지 주문취소 리스트 조회 -->
+<select id="selectCancelPayList" resultType="com.kh.earthball.bo.payment.vo.BoPayInfo">
+	SELECT ROWNUM, P.*
+		FROM (SELECT PAYMENT_NO
+		           , MEMBER_ID
+		           , TO_CHAR(PAYMENT.PAYMENT_DATE, 'YYYY-MM-DD') AS "PAYMENT_DATE"
+		           , PAYMENT_TYPE
+                   , STATUS
+                   , PAYMENT_NAME
+                   , PAYMENT_TOTAL
+                   , REWARD_POINT
+		        FROM PAYMENT
+		       WHERE STATUS = 'R'
+		       ORDER BY PAYMENT_DATE DESC) P
+		WHERE ROWNUM BETWEEN #{offset} AND #{limit}
+</select>
+
+<!-- 관리자페이지 결제처리 사이트에서 결제 취소 후 결제취소처리 -->
+<update id="acceptCancel" parameterType="com.kh.earthball.bo.payment.vo.BoPayInfo">
+	UPDATE PAYMENT
+		  SET STATUS = 'N'
+	  WHERE MEMBER_ID = #{memberId}
+		  AND PAYMENT_NO = #{paymentNo}
+		  AND STATUS = 'R'
+</update>
+
+</mapper>

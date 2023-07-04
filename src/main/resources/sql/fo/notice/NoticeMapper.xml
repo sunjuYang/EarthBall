@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeMapper">
+
+<resultMap id="noticeResultSet" type="notice">
+		<result column="NOTICE_NO" property="noticeNo" />
+		<result column="NOTICE_TITLE" property="noticeTitle" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="NOTICE_DATE" property="noticeDate" />
+		<result column="NOTICE_CATEGORY" property="noticeCategory" />
+			<result column="NOTICE_VIEW" property="noticeView" />
+	</resultMap>
+
+  <!-- 공지사항 총 갯수 구하는 쿼리문 -->
+  <select id="selectNoListCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM NOTICE
+    WHERE STATUS = 'Y'
+  </select>
+
+  <!-- 공지사항 리스트를 구해주는 쿼리문 -->
+  <select id="selectNoList" resultType="notice" resultMap="noticeResultSet">
+  SELECT NOTICE.NOTICE_NO
+     , NOTICE.NOTICE_TITLE
+     , NOTICE.NOTICE_CATEGORY
+     , TO_CHAR(NOTICE.NOTICE_DATE, 'YYYY-MM-DD') AS "NOTICE_DATE"
+     , NOTICE.NOTICE_VIEW
+	FROM NOTICE
+	WHERE NOTICE.STATUS = 'Y'
+	ORDER BY NOTICE.NOTICE_NO DESC
+  </select>
+
+  <!--  게시글 작성용 쿼리문 -->
+  <insert id="insertNotice" parameterType="notice">
+	  INSERT INTO NOTICE(NOTICE_NO
+	  , NOTICE_TITLE
+	  , NOTICE_CONTENT
+	  , NOTICE_CATEGORY)
+	  VALUES(SEQ_NOTICE.NEXTVAL
+	  , #{noticeTitle}
+	  , #{noticeContent}
+	  , #{noticeCategory})
+</insert>
+
+<!-- 공지사항 조회수 증가용 쿼리문 -->
+	<update id="increaseCount" parameterType="_int">
+		UPDATE NOTICE
+		   SET NOTICE_VIEW = NOTICE_VIEW + 1
+		 WHERE NOTICE_NO = #{noticeNo}
+		   AND STATUS = 'Y'
+	</update>
+
+<!--  공지사항 삭제용 쿼리문 -->
+<update id="deleteNotice" parameterType="_int">
+	UPDATE NOTICE
+		   SET STATUS = 'N'
+		 WHERE NOTICE_NO = #{noticeNo}
+</update>
+
+<!--  게시글 수정용 쿼리문 -->
+<update id="updateNotice" parameterType="notice">
+		UPDATE NOTICE
+		   SET NOTICE_TITLE = #{noticeTitle}
+		     , NOTICE_CONTENT = #{noticeContent}
+		     , NOTICE_CATEGORY = #{noticeCategory}
+		 WHERE NOTICE_NO = #{noticeNo}
+	</update>
+
+  <!-- 게시글 상세 조회용 쿼리문 -->
+<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+    SELECT NOTICE.NOTICE_NO
+         , NOTICE.NOTICE_TITLE
+         , TO_CHAR(NOTICE.NOTICE_DATE, 'YYYY-MM-DD') AS "NOTICE_DATE"
+         , NOTICE.NOTICE_CONTENT
+      FROM NOTICE
+     WHERE NOTICE.NOTICE_NO = #{noticeNo} AND NOTICE.STATUS = 'Y'
+</select>
+
+</mapper>

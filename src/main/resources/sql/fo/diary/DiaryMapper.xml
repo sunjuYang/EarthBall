@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.diary.mapper.DiaryMapper">
+
+		<select id="selectListCount" resultType="java.lang.Integer">
+				SELECT COUNT(*)
+				  FROM DY_BOARD
+				WHERE DY_STATUS = 'Y'
+		</select>
+
+		<select id="selectList"  resultType="com.kh.earthball.fo.diary.vo.Diary" >
+				SELECT  DY_BOARD_NO
+				          ,  DY_BOARD_TITLE
+				          ,  DY_BOARD_CONTENT
+				          , WEATHER
+				          , TO_CHAR(DY_CREATE_DATE, 'YYYY-MM-DD') AS DY_CREATE_DATE
+				          , DY_COUNT
+				          , CHANGE_NAME
+				          , DY_BOARD_WRITER
+				 FROM   DY_BOARD
+				 WHERE DY_STATUS = 'Y'
+				 ORDER BY DY_BOARD_NO DESC
+
+		</select>
+
+		<insert id="insertDiary" parameterType="com.kh.earthball.fo.diary.vo.Diary" >
+				INSERT INTO DY_BOARD (DY_BOARD_NO
+                    							 , DY_BOARD_TITLE
+                                                 , DY_BOARD_CONTENT
+                                                 , WEATHER
+                                                 , ORIGIN_NAME
+                                                 , CHANGE_NAME
+                                                 , DY_BOARD_WRITER)
+            	                         VALUES (SEQ_DY_BOARD.NEXTVAL
+									              , #{dyBoardTitle}
+									              , #{dyBoardContent}
+									              , #{weather}
+									              , #{originName}
+									              , #{changeName}
+									              , #{dyBoardWriter })
+		</insert>
+
+		<update id="increaseCount" parameterType="java.lang.Integer">
+				UPDATE DY_BOARD
+				       SET DY_COUNT = DY_COUNT + 1
+				  WHERE DY_BOARD_NO = #{dyBoardNo}
+				       AND DY_STATUS = 'Y'
+		</update>
+
+		<!-- 게시글 상세 조회용 쿼리문 -->
+		<select id="selectDiary" parameterType="java.lang.Integer">
+			SELECT DY_BOARD_NO
+			           , DY_BOARD_TITLE
+			           , DY_BOARD_CONTENT
+			           , WEATHER
+			           , DY_BOARD_WRITER
+			           , TO_CHAR(DY_CREATE_DATE, 'YYYY-MM-DD') AS DY_CREATE_DATE
+                       , CHANGE_NAME
+             FROM DY_BOARD
+             WHERE DY_BOARD_NO = #{dyBoardNo}
+		</select>
+
+		<!-- 게시글 삭제용 쿼리문 -->
+		<update id="deleteDiary" parameterType="java.lang.Integer">
+				UPDATE DY_BOARD
+				      SET DY_STATUS = 'N'
+				 WHERE DY_BOARD_NO = #{dyBoardNo}
+		</update>
+
+		<!-- 게시글 수정용 쿼리문 -->
+		<update id="updateDiary" parameterType="com.kh.earthball.fo.diary.vo.Diary">
+			UPDATE DY_BOARD
+			      SET DY_BOARD_TITLE = #{dyBoardTitle}
+			           , DY_BOARD_CONTENT = #{dyBoardContent}
+			           , ORIGIN_NAME = #{originName}
+                       , CHANGE_NAME = #{changeName}
+                       , WEATHER = #{weather}
+			  WHERE DY_BOARD_NO = #{dyBoardNo}
+			       AND DY_BOARD_WRITER = #{dyBoardWriter }
+		</update>
+
+		<!-- 마이페이지 참여한 나의 일기 조회 -->
+			<select id="diaryListMe" parameterType="String"  resultType="com.kh.earthball.fo.diary.vo.Diary" >
+				SELECT  DY_BOARD_NO
+				          ,  DY_BOARD_TITLE
+				          ,  DY_BOARD_CONTENT
+				          , WEATHER
+				          , TO_CHAR(DY_CREATE_DATE, 'YYYY-MM-DD') AS DY_CREATE_DATE
+				          , DY_COUNT
+				          , CHANGE_NAME
+				          , DY_BOARD_WRITER
+				 FROM   DY_BOARD
+				 WHERE DY_STATUS = 'Y'
+				 	 AND DY_BOARD_WRITER = #{memberId}
+				 ORDER BY DY_BOARD_NO DESC
+			</select>
+
+			<!-- 마이페이지 참여한 나의 일기 게시글 총 조회 -->
+			<select id="diaryListMeCount"   parameterType="java.lang.String" resultType="java.lang.Integer" >
+				SELECT COUNT(*)
+				FROM (  SELECT  DY_BOARD_NO
+				          ,  DY_BOARD_TITLE
+				          , TO_CHAR(DY_CREATE_DATE, 'YYYY-MM-DD') AS DY_CREATE_DATE
+				          , DY_COUNT
+				          , CHANGE_NAME
+				          , DY_BOARD_WRITER
+				 FROM   DY_BOARD
+				 WHERE DY_STATUS = 'Y'
+				 	 AND DY_BOARD_WRITER = #{memberId}
+				 ORDER BY DY_BOARD_NO DESC)
+			</select>
+
+
+
+
+			<!-- 메인페이지 일기 조회 -->
+			<select id="mainDiaryList" resultType="com.kh.earthball.fo.diary.vo.Diary" >
+    			<![CDATA[
+    					SELECT * FROM (
+        					SELECT DY_BOARD_NO
+            						  , DY_BOARD_TITLE
+                                      , TO_CHAR(DY_CREATE_DATE, 'YYYY-MM-DD') AS DY_CREATE_DATE
+                                      , DY_COUNT
+                                      , CHANGE_NAME
+                                      , DY_BOARD_WRITER
+                            FROM DY_BOARD
+                            WHERE DY_STATUS = 'Y'
+                            ORDER BY DY_BOARD_NO DESC
+                            ) WHERE ROWNUM <= 3
+                             ]]>
+                </select>
+
+
+
+
+</mapper>

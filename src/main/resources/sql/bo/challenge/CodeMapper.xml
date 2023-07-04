@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.challenge.mapper.CodeMapper">
+
+    <insert id="insertGrp" parameterType="com.kh.earthball.bo.challenge.vo.GrpCode">
+        INSERT INTO TB_GRP_CODE ( GRP_CODE
+                                , GRP_CODE_NAME
+                                , STATUS)
+        VALUES ( #{grpCode}
+               , #{grpCodeName}
+               , 'Y')
+    </insert>
+
+
+    <select id="selectListCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) CNT
+        FROM TB_GRP_CODE
+        WHERE STATUS = 'Y'
+    </select>
+
+
+    <select id="selectList" resultType="com.kh.earthball.bo.challenge.vo.GrpCode">
+        SELECT *
+        FROM (SELECT GRP_CODE
+                   , GRP_CODE_NAME
+                   , ROW_NUMBER() OVER (ORDER BY GRP_CODE) AS ROW_NUM
+              FROM TB_GRP_CODE
+              WHERE STATUS = 'Y')
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+  <select id="selectListAll" resultType="com.kh.earthball.bo.challenge.vo.GrpCode">
+    SELECT GRP_CODE
+         , GRP_CODE_NAME
+         , ROW_NUMBER() OVER (ORDER BY GRP_CODE) AS ROW_NUM
+    FROM TB_GRP_CODE
+    WHERE STATUS = 'Y'
+  </select>
+
+
+    <select id="selectGrp" parameterType="String" resultType="com.kh.earthball.bo.challenge.vo.GrpCode">
+        SELECT GRP_CODE
+             , GRP_CODE_NAME
+        FROM TB_GRP_CODE
+        WHERE STATUS = 'Y'
+          AND GRP_CODE = #{grpCode}
+    </select>
+
+
+    <update id="updateGrp" parameterType="com.kh.earthball.bo.challenge.vo.GrpCode">
+        UPDATE TB_GRP_CODE
+        SET GRP_CODE      = #{grpCode}
+          , GRP_CODE_NAME = #{grpCodeName}
+        WHERE GRP_CODE = #{grpCode}
+          AND STATUS = 'Y'
+    </update>
+
+
+    <update id="deleteGrp" parameterType="String">
+        UPDATE TB_GRP_CODE
+        SET STATUS = 'N'
+        WHERE GRP_CODE = #{grpCode}
+    </update>
+
+    <insert id="insertCode" parameterType="com.kh.earthball.bo.challenge.vo.Code">
+        INSERT INTO TB_CODE ( CODE
+                            , CODE_NAME
+                            , SORT_NO
+                            , GRP_CODE)
+        VALUES ( #{code}
+               , #{codeName}
+               , #{sortNo}
+               , #{grpCode})
+    </insert>
+
+
+    <select id="selectCodeList" parameterType="String" resultType="com.kh.earthball.bo.challenge.vo.Code">
+        SELECT CODE
+             , CODE_NAME
+             , SORT_NO
+             , GRP_CODE
+        FROM TB_CODE
+        WHERE STATUS = 'Y'
+          AND GRP_CODE = #{grpCode}
+    </select>
+
+    <select id="selectCode" resultType="com.kh.earthball.bo.challenge.vo.Code">
+        SELECT CODE
+             , CODE_NAME
+             , SORT_NO
+             , GRP_CODE
+        FROM TB_CODE
+        WHERE STATUS = 'Y'
+          AND GRP_CODE = #{grpCode}
+          AND CODE = #{code}
+    </select>
+
+    <update id="updateCode" parameterType="com.kh.earthball.bo.challenge.vo.Code">
+        UPDATE TB_CODE
+        SET CODE_NAME = #{codeName}
+          , SORT_NO   = #{sortNo}
+        WHERE CODE = #{code}
+          AND GRP_CODE = #{grpCode}
+    </update>
+
+    <update id="deleteCode">
+        UPDATE TB_CODE
+        SET STATUS = 'N'
+        WHERE CODE = #{code}
+          AND GRP_CODE = #{grpCode}
+    </update>
+
+
+</mapper>

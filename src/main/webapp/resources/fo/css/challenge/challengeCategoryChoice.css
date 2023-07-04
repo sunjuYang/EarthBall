@@ -1,0 +1,130 @@
+.wrap div {
+    /* border: 1px solid red; */
+     /* 지금부터 지정하는 가로세로길이는 테두리까지 포함한 사이즈임 */
+     box-sizing: border-box;
+ }
+ 
+ /* 전체를 감싸는 wrap*/
+ .wrap {
+     width: 1200px;
+     height: 1400px;
+     margin: auto; /* 좌우로 항상 정정가운데에 위치시켜주는 속성 */
+     padding-top: 170px;
+     /* position : relative; */
+ }
+ 
+ /* 크게 세가지 영역 */
+ /* header, content, footer */
+ /* #header, #content, #footer {
+     width: 100%;
+ } */
+ 
+ .wrap>div { width: 100%; }
+
+
+
+ /* 영역별 높이 */
+#title { height: 10%; }
+.describe { height: 20% ;}
+.choice { 
+    height: 70% ;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+/* 영역별 너비 */
+#title>div, #content>div { 
+    float: left;
+}
+
+.choice_one { 
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+
+/* 타이틀 */
+#title {
+    box-sizing : border-box;
+    align-items : center;
+    display : flex;
+}
+
+#title_text {
+    width : 1000px;
+    height : 50px;
+    font-size : 40px;
+    font-weight : bold;
+    padding : 0px 0px 7px 10px;
+    /* border : 1px solid red; */
+}
+
+#bar_1 {
+    width : 12px;
+    height : 70px;
+    background-color : #146C94;
+}
+
+.btn_1 {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    width: 200px;
+    height: 50px;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+
+.bar_2 {
+    width : 95%;
+    height : 4px;
+    background-color : #b9b9b9;
+    margin : 0px 0px 0px 20px;
+}
+
+#describe_1 {
+    font-size: 25px;
+    font-weight: 400;
+    color: rgb(123, 123, 123);
+    padding: 20px;
+}
+
+.accent {
+    font-size: 35px;
+    color: #146C94;
+    font-weight: 900;
+}
+
+.btn_2 {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    width: 300px;
+    height: 80px;
+    color: white;
+    font-weight: 700;
+    font-size: 30px;
+    margin: 20px;
+    cursor: pointer;
+}
+
+
+.btn_2:hover {
+    background-color: white;
+    color: #69abce;
+}
+
+
+.choice_one_list li, .choice_one_list {
+    text-align:left;
+    font-size: 20px;
+}

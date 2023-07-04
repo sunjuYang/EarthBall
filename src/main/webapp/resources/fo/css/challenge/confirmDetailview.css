@@ -1,0 +1,481 @@
+
+.wrap div {
+  /*border: 1px solid red;*/
+  /* 지금부터 지정하는 가로세로길이는 테두리까지 포함한 사이즈임 */
+  box-sizing: border-box;
+}
+
+/* 전체를 감싸는 wrap*/
+.wrap {
+  width: 1200px;
+  height: auto;
+  min-height: 100px;
+  overflow: hidden;
+  margin: auto; /* 좌우로 항상 정정가운데에 위치시켜주는 속성 */
+  padding-top: 230px;
+  /* position : relative; */
+}
+
+/* 크게 세가지 영역 */
+/* header, content, footer */
+/* #header, #content, #footer {
+    width: 100%;
+} */
+
+.wrap > div {
+  width: 100%;
+}
+
+
+/* 영역별 높이 */
+#title {
+  height: 5%;
+}
+
+.basic_info {
+  height: 20%;
+}
+
+.template {
+  height: 50%;
+}
+
+.btn_div {
+  height: 8%;
+}
+
+.reply {
+  height: 18%;
+}
+
+/* 영역별 너비 */
+#title > div {
+  float: left;
+}
+
+
+/* 타이틀 */
+#title {
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+}
+
+#title_text {
+  width: 1000px;
+  height: 50px;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 0px 0px 7px 10px;
+  /* border : 1px solid red; */
+}
+
+#bar_1 {
+  width: 12px;
+  height: 70px;
+  background-color: #146C94;
+}
+
+.btn_div {
+  display: flex;
+  justify-content: center
+}
+
+.btn_1 {
+  background-color: #69abce;
+  border: solid 1px #69abce;
+  border-radius: 7px;
+  width: 400px;
+  height: 60px;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 20px;
+}
+
+.btn_1:hover {
+  color: #69abce;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn_2 {
+  background-color: white;
+  border: solid 1px #69abce;
+  border-radius: 7px;
+  width: 200px;
+  height: 60px;
+  color: #69abce;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 20px;
+}
+
+.btn_2:hover {
+  background-color: #69abce;
+  color: white;
+  cursor: pointer;
+}
+
+
+.btn_3 {
+  background-color: #146C94;
+  border-radius: 7px;
+  border: #146C94 solid 1px;
+  width: 60px;
+  height: 35px;
+  font-weight: 500;
+  font-size: 15px;
+  margin: 20px;
+  color: white;
+}
+
+
+.btn_3:hover {
+  color: #146C94;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+.btn_4 {
+  background-color: #146C94;
+  border-radius: 7px;
+  border: #146C94 solid 1px;
+  width: 40px;
+  height: 30px;
+  font-weight: 400;
+  font-size: 15px;
+  color: white;
+}
+
+.btn_4:hover {
+  color: white;
+  background-color: #146C94;
+  cursor: pointer;
+}
+
+
+.btn_5 {
+  background-color: #69abce;
+  border: solid 1px #69abce;
+  border-radius: 7px;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: 100;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.btn_5:hover {
+  color: #69abce;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn_6 {
+  background-color: #69abce;
+  border: solid 1px #69abce;
+  border-radius: 7px;
+  width: 50px;
+  height: 40px;
+  color: white;
+  font-weight: 100;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.btn_6:hover {
+  color: #69abce;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+
+.text_class_1 {
+  width: 70%;
+}
+
+.text_class_2 {
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+
+
+.bar_2 {
+  width: 170px;
+  height: 6px;
+  background-color: #146C94;
+  margin: 0px 0px 0px 20px;
+}
+
+
+.info_title h2 {
+  margin-left: 30px;
+}
+
+.info_title span {
+  color: rgb(229, 84, 84);
+  font-size: 18px;
+  margin-left: 30px;
+}
+
+.star {
+  color: rgb(229, 84, 84);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+
+.form_title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-left: 50px;
+  margin-top: 40px;
+
+}
+
+
+.form_content {
+  font-size: 20px;
+  margin-left: 30px;
+  font-weight: 800;
+}
+
+
+
+.basic_form_1 {
+  width: 65%;
+  display: inline-block;
+}
+
+.basic_form_2 {
+  width: 30%;
+  display: inline-block;
+}
+
+
+.sub_title {
+  padding: 7px;
+  display: inline-block;
+  font-size: 20px;
+  margin-left: 45px;
+  border-radius: 5px;
+  color: #146C94;
+  font-weight: 900;
+  border: #146C94 1px dashed;
+  display: inline-block;
+}
+
+
+/* 화면에 선택적으로 뿌려지는 템플릿 폼들*/
+
+.sub_title {
+  display: flex;
+  width: 20%;
+}
+
+.values {
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.valuesTextarea {
+  margin-left: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+/* select 문 */
+.select {
+  display: flex;
+}
+
+.select_class {
+  font-size: 20px;
+  left: 400px;
+  justify-content: center;
+  margin-left: 40px;
+  width: 500px;
+  text-align: center;
+}
+
+
+/* checkbox 문 */
+.checkbox {
+  display: flex;
+}
+
+.checkbox_class {
+  left: 400px;
+  justify-content: center;
+  margin-left: 35px;
+}
+
+.check_font span {
+  font-size: 20px;
+}
+
+
+/* radio 문 */
+.radio {
+  display: flex;
+
+}
+
+.radio_class {
+  left: 400px;
+  justify-content: center;
+  margin-left: 35px;
+}
+
+.radio_font {
+  font-size: 20px;
+}
+
+
+/* text 문 */
+.text {
+  display: flex;
+}
+
+.text_class_1, text_class_2 {
+  margin-left: 40px;
+  font-size: 20px;
+}
+
+.text_class_1 {
+  width: 70%;
+}
+
+text_class_2 {
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+
+.text_size {
+  width: 500px;
+  height: 34px;
+}
+
+
+/* textarea 문 */
+
+.textarea_class {
+  margin-left: 46px;
+}
+
+.textarea_font {
+  font-size: 20px;
+}
+
+
+/* 파일 */
+.file {
+  display: flex;
+}
+
+.file_class {
+  margin-left: 40px;
+  font-size: 20px;
+
+}
+
+
+/* number 문 */
+.number {
+  display: flex;
+}
+
+.number_class {
+  margin-left: 40px;
+}
+
+.number_size {
+  font-size: 20px;
+  font-weight: normal;
+  border: solid 1px rgb(173, 172, 172);
+  height: 35px;
+  text-align: center;
+}
+
+
+/* range 문 */
+.range {
+  display: flex;
+}
+
+.range_size {
+  height: 35px;
+  margin-left: 40px;
+}
+
+
+/* datetime 문 */
+.datetime {
+  display: flex;
+}
+
+.datetime_class {
+  margin-left: 40px;
+}
+
+.datetime_size {
+  font-size: 20px;
+  font-weight: normal;
+  border: solid 1px rgb(173, 172, 172);
+  height: 35px;
+  text-align: center;
+}
+
+/* 화면에 선택적으로 뿌려지는 템플릿 폼들*/
+
+
+/*--------------이미지 미리보기----------------*/
+HTML SCSS BabelResult Skip Results Iframe
+EDIT ON
+.flex-container {
+  display: flex;
+}
+
+.wrapper {
+  text-align: center;
+  flex-grow: 1;
+}
+
+
+.image-box {
+  width: 700px;
+  object-fit: cover;
+  display: block;
+  margin: 20px 50px;
+}
+
+.upload-btn {
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.reply {
+  align-items: center;
+  display: flex;
+}
+
+table * {margin:5px;}
+
+table {
+  width:100%;
+  align-items: center;
+  justify-content: center;
+}
+
+/*--------------이미지 미리보기----------------*/

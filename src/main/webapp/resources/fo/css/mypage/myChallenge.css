@@ -1,0 +1,191 @@
+.main-content2 {
+    align-items: center;
+}
+
+#content_1 {
+    width: 100%;
+}
+
+.chall_Card {
+    width: 280px;
+    height: 350px;
+    border: solid 1px #c7c6c694;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #c7c6c694;
+    display: inline-block;
+    margin: 6px;
+    margin-top: 20px;
+}
+
+.chall_Card:hover {
+    box-shadow: 5px 5px 5px  #69abce;
+    transform: translate(-5%, -5%);
+    transition-delay: 0.1s;
+    transition-duration: 0.6s;
+    cursor: pointer;
+}
+
+.chall_Card img {
+    width: 95%;
+    height: 160px;
+    display: block;
+    margin-left: 7px;
+    margin-bottom: 10px;
+    margin-top: 7px;
+    border-radius: 5px;
+}
+
+#challTitle {
+    word-wrap : break-word; /*- 단어 단위로 줄바꿈*/
+    text-align : left; /*- 텍스트를 가운데나 오른쪽 정렬을 하게 되면 말줄임표가 이상한 곳으로 갈 수 있음*/
+    display: -webkit-box; /*유연하게 height를 증감시킬 수 있는 플렉스 박스형태로 변환*/
+    -webkit-line-clamp: 1; /* 보여줄 줄 수 */
+    -webkit-box-orient: vertical; /* 플렉스 박스의 방향 설정(가로)*/
+    overflow: hidden; /* 넘치는 글자는 감추기 */
+}
+
+
+.userId {
+    margin: 5px;
+}
+
+/* 챌린지 카드의 데이트 속성 */
+.chall_Date>span {
+    text-align: center;
+}
+
+
+/* 챌린지 카드의 태그 속성 */
+.chall_Tag>ul>li span {
+    text-align: center;
+    justify-content: center;
+    width: 90px;
+    font-size: 15px;
+    padding: 7px;
+}
+
+.chall_Tag>ul>li {
+    text-align: center;
+    justify-content: center;
+    width: 90px;
+    font-size: 15px;
+    padding: 7px;
+}
+
+.chall_Tag {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.chall_Tag>ul>li {
+    display:inline-block;
+    float: left;
+    margin: 0 5px;
+}
+
+
+.tag {
+    background-color: #69abce;
+    border: solid 1px #69abce;
+    border-radius: 7px;
+    width: 200px;
+    height: 35px;
+    color: white;
+    font-weight: 500;
+    display: block;
+}
+
+
+/* 버튼 */
+
+.btn_4 {
+    background-color: #146C94;
+    border-radius: 7px;
+    border: #146C94 solid 1px;
+    width: 150px;
+    height: 30px;
+    font-size: 15px;
+    color: white;
+    float: right;
+}
+
+.btn_4:hover {
+    color: white;
+    background-color: #146C94;
+    cursor: pointer;
+}
+
+
+
+/* 페이징 버튼 */
+#page {
+    text-align: center;
+    display: grid;
+    align-items: center;
+    justify-content: space-around
+}
+
+.page_btn {
+    align-items: center;
+
+}
+
+.pagination {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.pagination li {
+    display: inline;
+    text-align: center;
+}
+
+/* 숫자들에 대한 스타일 지정 */
+.pagination a {
+    float: left;
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 5px 12px;
+    color: #797979;
+    line-height: 1.5;
+}
+
+.first { margin-right: 15px; }
+
+.last { margin-left: 15px; }
+
+.first:hover, .last:hover, .arrow_left:hover, .arrow_right:hover {
+    color: #146C94;
+}
+
+.pagination a:active {
+    cursor: default;
+    color: #69abce;
+}
+
+.pagination a:active {
+    outline: none;
+}
+
+.num {
+    margin-left: 3px;
+    padding: 0;
+    width: 30px;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+}
+
+.num:hover {
+    background-color: #146C94;
+    color: #ffffff;
+}
+
+.num:active, .modal .num:active {
+    background-color: #69abce;
+    cursor: pointer;
+}
+

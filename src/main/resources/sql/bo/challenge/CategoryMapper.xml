@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.challenge.mapper.CategoryMapper">
+
+    <select id="selectCategoryList" resultType="com.kh.earthball.bo.challenge.vo.Category" >
+        SELECT CATEGORY_NO
+             , CATEGORY_NAME
+             , STATUS
+          FROM TB_CATEGORY
+         WHERE STATUS = 'Y'
+    </select>
+
+    <insert id="insertCategory" parameterType="String">
+        INSERT INTO TB_CATEGORY (CATEGORY_NO
+                               , CATEGORY_NAME
+                               , STATUS)
+                         VALUES (SEQ_TB_CATEGORY.NEXTVAL
+                               , #{categoryName}
+                               , 'Y')
+    </insert>
+
+
+    <select id="selectCategory" parameterType="java.lang.Integer" resultType="com.kh.earthball.bo.challenge.vo.Category">
+        SELECT CATEGORY_NO
+             , CATEGORY_NAME
+             , STATUS
+        FROM TB_CATEGORY
+        WHERE STATUS = 'Y'
+          AND CATEGORY_NO = #{categoryNo}
+    </select>
+
+
+    <update id="updateCategory" parameterType="com.kh.earthball.bo.challenge.vo.Category">
+        UPDATE TB_CATEGORY
+           SET CATEGORY_NAME = #{categoryName}
+         WHERE CATEGORY_NO = #{categoryNo}
+           AND STATUS = 'Y'
+    </update>
+
+    <update id="deleteCategory" parameterType="java.lang.Integer">
+        UPDATE TB_CATEGORY
+           SET STATUS = 'N'
+         WHERE CATEGORY_NO = #{categoryNo}
+    </update>
+
+    <select id="selectGrpCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT GRP_CODE
+        FROM TB_GRP_CODE
+        WHERE GRP_CODE_NAME = #{grpCodeName}
+    </select>
+
+    <select id="selectCodeList" parameterType="java.lang.String" resultType="com.kh.earthball.bo.challenge.vo.Code">
+        SELECT C.CODE_NAME
+             , C.CODE
+             , C.GRP_CODE
+        FROM TB_CODE C
+        WHERE GRP_CODE = (SELECT GRP_CODE
+                          FROM TB_GRP_CODE GC
+                          WHERE GC.GRP_CODE_NAME = #{categoryName})
+          AND STATUS ='Y'
+    </select>
+
+</mapper>

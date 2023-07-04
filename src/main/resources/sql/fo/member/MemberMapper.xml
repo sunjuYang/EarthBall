@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.member.mapper.MemberMapper">
+
+    <select id="loginMember" parameterType="com.kh.earthball.fo.member.vo.Member">
+        SELECT *
+           FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+          AND STATUS = 'Y'
+    </select>
+
+    <insert id="insertMember" parameterType="com.kh.earthball.fo.member.vo.Member">
+        INSERT INTO MEMBER( MEMBER_ID
+                          , MEMBER_PWD
+                          , MEMBER_NAME
+                          , BIRTH_DATE
+                          , GENDER
+                          , EMAIL
+                          , PHONE
+                          , POST_CODE
+                          , ADDRESS1
+                          , ADDRESS2)
+        VALUES ( #{memberId}
+               , #{memberPwd}
+               , #{memberName}
+               , #{birthDate}
+               , #{gender}
+               , #{email}
+               , #{phone}
+               , #{postCode}
+               , #{address1}
+               , #{address2})
+    </insert>
+
+    <update id="updateMember" parameterType="com.kh.earthball.fo.member.vo.Member">
+        UPDATE MEMBER
+        SET MEMBER_NAME  = #{memberName}
+          , MEMBER_PWD   = #{memberPwd}
+          , BIRTH_DATE   = #{birthDate}
+          , GENDER       = #{gender}
+          , EMAIL        = #{email}
+          , PHONE        = #{phone}
+          , POST_CODE = #{postCode}
+          , ADDRESS1 = #{address1}
+          , ADDRESS2 = #{address2}
+          , CREATED_DATE = SYSDATE
+        WHERE MEMBER_ID = #{memberId}
+    </update>
+
+    <select id="idCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE MEMBER_ID = #{checkId}
+    </select>
+
+    <!-- 회원가입, 이메일 인증을 위한 랜덤번호 저장 -->
+    <update id="updateMailKey" parameterType="com.kh.earthball.fo.member.vo.Member">
+    	UPDATE MEMBER
+    	        SET MAIL_KEY = #{mailKey}
+    	 WHERE EMAIL = #{email}
+    	       AND MEMBER_ID = #{memberId}
+    </update>
+
+    <!-- 이메일 인증 후 로그인 허용 -->
+    <update id="updateMailAuth" parameterType="com.kh.earthball.fo.member.vo.Member">
+    	UPDATE MEMBER
+    	        SET MAIL_AUTH = 1
+    	 WHERE EMAIL = #{email}
+    	       AND MAIL_KEY = #{mailKey}
+    </update>
+
+    <select id="emailAuthFail" parameterType="java.lang.String" resultType="java.lang.Integer">
+    	SELECT *
+    	    FROM MEMBER
+    	 WHERE MEMBER_ID = #{memberId}
+    	       AND MAIL_AUTH = 1
+    </select>
+
+    <select id="mailAuthStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+    	SELECT MAIL_AUTH
+    	   FROM MEMBER
+    	WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <update id="updateImg" parameterType="com.kh.earthball.fo.member.vo.Member">
+    	UPDATE MEMBER
+    	        SET MEMBER_IMG = #{memberImg}
+    	 WHERE MEMBER_ID = #{memberId}
+    </update>
+
+    <update id="updateProfile" parameterType="java.lang.String">
+    	UPDATE MEMBER
+    	        SET ORG_FILE_NAME = 1
+    	 WHERE MEMBER_ID = #{memberId}
+    </update>
+
+    <select id="selectProfile" parameterType="java.lang.String" resultType="java.lang.String">
+    	SELECT MP_FILE.ORG_FILE_NAME
+		FROM MP_FILE
+		INNER JOIN MEMBER ON MP_FILE.MEMBER_ID = MEMBER.MEMBER_ID
+		WHERE MEMBER.MEMBER_ID = #{memberId}
+    </select>
+
+    <update id="insertProfile">
+    	UPDATE MEMBER
+    	SET MEMBER_IMG = #{memberImg}
+    	WHERE MEMBER_ID = #{memberId}
+    </update>
+
+    
+    <update id="deleteMember" parameterType="java.lang.String">
+    	UPDATE MEMBER
+    	        SET STATUS = 'N'
+    	 WHERE  MEMBER_ID = #{memberId}
+    </update>
+    
+    <select id="nameCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE MEMBER_NAME = #{checkName}
+    </select>
+
+</mapper>

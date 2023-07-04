@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.Member.mapper.AdminMemberMapper">
+	
+	<select id="AdminMemberListCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		   FROM MEMBER
+		   
+	</select>
+	
+	<select id="selectAdminMemberList" resultType="com.kh.earthball.bo.Member.vo.AdminMember">
+    	SELECT *
+        FROM MEMBER
+        LIMIT #{offset}, #{limit}
+	</select>
+	
+	<select id="searchAdminMember" parameterType="java.lang.String" resultType="com.kh.earthball.bo.Member.vo.AdminMember">
+    	SELECT * 
+    	   FROM MEMBER 
+    	WHERE MEMBER_NAME LIKE '%' || #{keyword} || '%' OR MEMBER_ID LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<update id="updateMemberStatus">
+		UPDATE MEMBER
+		SET STATUS = #{status}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
+
+
+</mapper>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BonoticeMapper">
+
+	<resultMap id="BonoticeResultSet" type="notice">
+		<result column="NOTICE_NO" property="noticeNo" />
+		<result column="NOTICE_TITLE" property="noticeTitle" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="NOTICE_DATE" property="noticeDate" />
+		<result column="NOTICE_CATEGORY" property="noticeCategory" />
+		<result column="NOTICE_VIEW" property="noticeView" />
+	</resultMap>
+
+	 <!-- 공지사항 총 갯수 구하는 쿼리문 -->
+  <select id="boselectListNoCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM NOTICE
+    WHERE STATUS = 'Y'
+  </select>
+
+  <!-- 공지사항 리스트를 구해주는 쿼리문 -->
+  <select id="boselectNoList" resultType="notice" resultMap="BonoticeResultSet">
+  SELECT NOTICE.NOTICE_NO
+     , NOTICE.NOTICE_TITLE
+     , NOTICE.NOTICE_CATEGORY
+     , TO_CHAR(NOTICE.NOTICE_DATE, 'YYYY-MM-DD') AS "NOTICE_DATE"
+     , NOTICE.NOTICE_VIEW
+	FROM NOTICE
+	WHERE NOTICE.STATUS = 'Y'
+	ORDER BY NOTICE.NOTICE_NO DESC
+  </select>
+
+</mapper>

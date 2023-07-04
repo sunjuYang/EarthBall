@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+    <settings>
+        <!-- settings : MyBatis 구동 시 선언할 설정들을 작성하는 영역 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <!-- jdbcTypeForNull : NULL 만약에 데이터가 전달된 게 없다면 테이블에 데이터가 들어갈 때 빈칸이 아닌 NULL
+            로 인식해서 넣겠다 라는 뜻 (무조건 대문자로 NULL 넣어야 함) -->
+    </settings>
+
+
+    <typeAliases>
+        <!-- typeAliases : VO/ 클래스들의 풀 클래스명을 단순한 클래스명처럼 사용하기 위해 별칭을 등록할 수 있는
+            영역 => 실제 해당 클래스가 존재하지 않는 상황에서 미리 별칭을 부여하면 ClassNotFoundException 발생!! -->
+        <!-- 주의사항 : 별칭을 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야 함! 또한, 해당 클래스명 기술 시,
+            오타 있어도 안 됨! (ClassNotFoundException 발생) -->
+
+        <typeAlias type="com.kh.earthball.fo.board.vo.Board" alias="board"/>
+        <typeAlias type="com.kh.earthball.fo.notice.vo.Notice" alias="notice"/>
+        <typeAlias type="com.kh.earthball.fo.board.vo.QReply" alias="reply"/>
+        <typeAlias type="com.kh.earthball.bo.notice.vo.BoNotice" alias="BoNotice"/>
+
+    </typeAliases>
+
+    <!-- environments 영역에 기술했었던 environment, dataSource 등 DB 연결 정보 관련은 mybatis-config.xml
+        파일에서 작성하지 않을 것! => DB 등록은 서버 연동과 동시에 이루어져야 하는 아주 중요한 구문이기 때문에 서버 스타트와 동시에
+        두번째로 읽혀지는 파일 (root-context.xml) 에 기술할 예정 <web.xml => root-context.xml =>
+        servlet-context.xml 순서로 읽혀짐> -->
+    <!-- 주의사항 : 매퍼파일을 미리 등록해두려면 해당 매퍼파일이 진짜 존재하고 있는 상태여야 함! 뿐만 아니라, mapper 파일
+        내부의 namespace 도 등록 되어 있어야만 함! 파일명도 오타가 있으면 안 됨! (FileNotFoundException 발생) -->
+</configuration>

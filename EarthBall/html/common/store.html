@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" href="https://kenwheeler.github.io/slick/slick/slick-theme.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            min-width: 1500px;
+        }
+
+        /* header */
+        #headers{
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 9999;
+            background-color: white;
+            min-width: 1000px;
+        }
+        .header{
+            width: 1000px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu{
+            width: 1000px;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .login-area{
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+            margin-top: 30px;
+            color: #19A7CE;
+        }
+        .login-area a{
+            text-decoration: none;
+            color: #19A7CE;
+        }
+        .logo{
+            width: 250px;
+        }
+
+        /* 드롭다운 */
+        .dropdown{
+            position : relative;
+            display : inline-block;
+        }
+        .dropdown-content{
+            display : none;
+            position : absolute;
+            z-index : 1; /*다른 요소들보다 앞에 배치*/
+            background-color : white;
+            width : 100px;
+            border-radius : 8px;
+            box-shadow : 0 0 10px rgba(0,0,0,0.2);
+        }
+        .dropdown-content a{
+            display : block;
+            text-decoration : none;
+            color : black;
+            padding: 10px;
+        }
+        .dropdown-content a:hover{
+            background-color : #19A7CE;
+            color : white;
+            border-radius: 8px;
+        }
+        .dropdown:hover .dropdown-content{
+            display : block;
+        }
+        .dropdown>span{
+            display: block;
+            padding: 20px;
+            cursor: pointer;
+            color: #19A7CE;
+        }
+        .dropdown-content a{
+            color : #19A7CE;
+        }
+
+        .search>form {
+            position: relative;
+            width: 200px;
+        }
+
+        .search>form>input {
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .search>form>img {
+            position : absolute;
+            width: 17px;
+            top: 10px;
+            right: 1px;
+            margin: 0;
+        }
+
+        /* ---------------------------------- */
+
+        /* 메인영역 */
+        #container{
+            width: 1000px;
+            height: auto;
+            margin: 0 auto;
+            padding-top: 170px;
+            /* background-color: aliceblue; */
+        }
+
+        /* store */
+
+        .title{
+            display: flex;
+        }
+        .title div{
+            width: 12px;
+            height: 70px;
+            background-color: #146C94;
+        }
+
+        .title span{
+            font-size: 40px;
+            padding-top: 15px;
+        }
+        .mapSearch{
+            display : grid; 
+            grid-template-columns: 30% 50% 20%; 
+            padding-top : 20px
+        }
+        .mapSearch form{
+            position: relative
+            
+        }
+        .mapSearch input{
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            padding-left: 30px;
+        }
+        .mapSearch img{
+            position: absolute;
+            padding: 10px;
+            width: 18px;
+            
+        }
+        .mapSearch select{
+            width: 100%; 
+            height: 100%; 
+            border: 1px solid #bbb; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            padding-left: 10px;
+        }
+
+        .mapListFrame{
+            margin: 30px 0px;
+            height: 750px;
+            border: 1px solid #bbb;
+            padding-left : 10px;
+        }
+        .mapList{
+            width: 50%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+        .mapSemiInfo{
+            margin:30px 0px;
+            border: 1px solid black; 
+            width: 99%; 
+            height: 130px;
+        }
+        .mapSemiInfo>div{
+            padding: 20px;
+        }
+
+        .mapDetailInfo{
+            width: 50% ;
+            
+            overflow: scroll;
+        }
+        
+        /* ---------------------------------- */
+        /* footer */
+        #footer{
+            width: 100%;
+            height: 220px;
+            margin: 0 auto;
+            background-color: #19A7CE;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로그인 영역 -->
+    <div id="headers">
+        <div class="header">
+            <div style="width: 120px;"></div>
+            <div class="logo">
+                <a href=""><img src="../resources/img/logo.png" style="width: 250px;"></a>
+            </div>
+            <div class="login-area">
+                <div><a href="">로그인</a></div>&nbsp;|&nbsp;
+                <div><a href="">회원가입</a></div>
+            </div>
+        </div>
+        <!-- 매뉴바 -->
+        <div class="menu">
+            <div>
+                <div class="dropdown">
+                    <span class="dropbtn">장보기</span>
+                    <div class="dropdown-content">
+                        <a href="">선물꾸러미</a>
+                        <a href="">욕실</a>
+                        <a href="">식품</a>
+                        <a href="">주방</a>
+                        <a href="">생활</a>
+                        <a href="">취미</a>
+                        <a href="">음료용품</a>
+                        <a href="">여성용품</a>
+                        <a href="">반려동물</a>
+                        <a href="">화장품</a>
+                        <a href="">문구</a>
+                        <a href="">전체</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">지구소개</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">챌린지</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">환경일기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">매장찾기</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+                <div class="dropdown">
+                    <span class="dropbtn">고객센터</span>
+                    <div class="dropdown-content">
+                        <a href="">#</a>
+                    </div>
+                </div> 
+            </div>
+            <div class="search">
+                <form action="">
+                    <input type="text" placeholder="검색어 입력">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                </form>
+            </div>
+    
+        </div>
+    </div>
+
+    <div id="container">
+        <div class="store map" style="display: flex; justify-content: center;">
+            <div style="width: 1000px; height: 600px; border: 1px solid black;">
+                
+            </div>
+        </div>
+        <div>
+            <p style="color: gray; margin: 20px 0px 5px 0px; padding-left: 5px;">전국의 x개의 매장</p>
+            <div class="common title">
+                <div></div>
+                <span>친환경 매장 찾기</span>
+            </div>
+            <div style="display: flex; margin-top: 20px;">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        매장명
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        주소명
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="mapSearch">
+            <div>
+                <form action="">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                    <input type="text" placeholder="검색어 입력">
+                </form>
+            </div>
+            <div></div>
+            <div>
+                <select name="" id="">
+                    <option value="">거리순</option>
+                    <option value="">좋아요순</option>
+                </select>
+            </div>
+        </div>
+        <div class="mapListFrame" style="display: flex;">
+            <div class="mapList">
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        <span>전화번호 : 02-3317-2240</span>
+                        <i class="xi-heart xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+                <div class="mapSemiInfo">
+                    <div>
+                        <h3 style="margin: 0px;">가게이름</h3>
+                        <h4 style="margin: 10px 0px;">서울특별시 동작구 사당4동 1150번지</h4>
+                        영업시간 : 00:00 ~ 00:00
+                        <i class="xi-heart-o xi-2x" style="width: 20p;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="mapDetailInfo">
+
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div style="width: 100px;"></div>
+        <div><img src="../resources/img/logo2.png" style="width: 400px; padding-top: 20px;"></div>
+        <div style="margin-top: 30px; color: white;">
+            <p style="font-weight: bold;">
+                이용약관  |  개인정보처리방침  |  도매 전용 B2B몰
+            </p>
+            <p>
+                회사명 : 주식회사 인수온송민근 | 대표자 : 양선주 <br>
+                주소 : 서울시 금천구 가산디지털2로 165, 1001호 | 이메일 : contact@jigugong.co.kr | 팩스 : 0303-3444-2050 <br>
+                사업자등록번호 : 689-86-00791 | 통신판매업신고 : 제2018-서울동작-02955 | 건강기능식품영업신고 : 제2022-0112707 <br>
+                개인정보보호책임자 : 양선주 | 고객센터 : 02-812-2050 | 호스팅 제공자 : (주)지구공 
+            </p>
+        </div>
+        <div style="width: 100px;"></div>
+    </div>
+
+</body>
+</html>

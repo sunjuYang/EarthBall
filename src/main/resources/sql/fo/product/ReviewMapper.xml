@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.product.mapper.ReviewMapper">
+
+	<insert id="insertReview" parameterType="com.kh.earthball.fo.product.vo.Review">
+		INSERT INTO REVIEW
+		VALUES (SEQ_REVIEW.NEXTVAL, #{ reviewContent }, SYSDATE, #{ rating }, #{ changeName }, #{ productNo }, #{ memberId }, 0)
+	</insert>
+
+	<select id="selectList" parameterType="_int" resultType="com.kh.earthball.fo.product.vo.Review">
+		SELECT REVIEW_NO, REVIEW_CONTENT, CREATE_DATE, RATING, CHANGE_NAME, MEMBER_ID, COUNT
+		FROM REVIEW
+		WHERE PRODUCT_NO = #{ productNo }
+		ORDER BY REVIEW_NO DESC
+	</select>
+
+	<select id="selectPhotoList" parameterType="_int" resultType="com.kh.earthball.fo.product.vo.Review">
+		SELECT REVIEW_NO, REVIEW_CONTENT, CREATE_DATE, RATING, CHANGE_NAME, MEMBER_ID, COUNT
+		FROM REVIEW
+		WHERE PRODUCT_NO = #{ productNo }
+		AND CHANGE_NAME IS NOT NULL
+		ORDER BY REVIEW_NO DESC
+	</select>
+
+	<insert id="insertReply" parameterType="com.kh.earthball.fo.product.vo.Review">
+		INSERT INTO REVIEW_REPLY
+		VALUES(SEQ_REVIEW_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', #{reviewNo}, #{memberId})
+	</insert>
+
+	<update id="updateReviewCount" parameterType="java.lang.Integer">
+		UPDATE REVIEW
+		SET COUNT = COUNT + 1
+		WHERE REVIEW_NO = #{reviewNo}
+	</update>
+
+	<select id="selectReplyList" parameterType="java.lang.Integer" resultType="com.kh.earthball.fo.product.vo.Review">
+		SELECT REPLY_CONTENT, R.CREATED_DATE, MEMBER_NAME, MEMBER_IMG
+		FROM REVIEW_REPLY R
+		JOIN MEMBER USING (MEMBER_ID)
+		WHERE REVIEW_NO = #{reviewNo}
+		AND R.STATUS = 'Y'
+		ORDER BY R.CREATED_DATE DESC
+	</select>
+
+	<select id="selectTopList" parameterType="_int" resultType="com.kh.earthball.fo.product.vo.Review">
+		SELECT *
+		FROM (SELECT REVIEW_CONTENT, CREATE_DATE, RATING, R.CHANGE_NAME, MEMBER_NAME, COUNT, MEMBER_IMG
+		      FROM REVIEW R
+		      JOIN MEMBER USING (MEMBER_ID)
+		      WHERE PRODUCT_NO = #{productNo}
+		      AND R.CHANGE_NAME IS NOT NULL
+		      ORDER BY REVIEW_NO DESC)RNUM
+		WHERE ROWNUM &lt;= 10
+	</select>
+
+	<select id="selectReviewCount" parameterType="_int">
+		SELECT COUNT(*)
+		FROM REVIEW
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+
+</mapper>

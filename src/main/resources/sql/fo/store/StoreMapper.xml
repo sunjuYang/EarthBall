@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.earthball.fo.store.mapper.StoreMapper">
+
+  <!-- 매장 수 가져오기 -->
+  <select id="selectStoreListCount"  resultType="int">
+    SELECT COUNT(*)
+    FROM STORE
+    WHERE STATUS = 'Y'
+  </select>
+ 	
+ 	
+ 	<!--  매장 전체리스트 조회용 쿼리문   -->
+ 	<select id="selectAllStoreList" resultType="com.kh.earthball.fo.store.vo.Store">
+ 	    SELECT STORE_NO
+        , STORE_NAME
+        , STORE_ADDRESS
+        , STORE_DETAIL_ADDRESS
+        , STORE_PHONE
+        , BUSINESS_HOURS
+        , STORE_LIKES
+        , STORE_REGION_NO
+        , STORE_INFO
+        , STATUS
+        , CHANGER_NAME
+    FROM STORE
+    JOIN STORE_ATTA USING (STORE_NO)
+    WHERE STATUS = 'Y'
+    AND FILE_LEVEL = 0
+     <if test="orderLikeCheck == false">
+        ORDER BY STORE_LIKES DESC
+    </if>
+    <if test="orderLikeCheck == true">
+        ORDER BY STORE_NAME 
+    </if>
+ 	</select>
+
+	<!-- 매장 사진 조회용 쿼리 -->
+	<select id="selectStoreAttaList" resultType="com.kh.earthball.fo.store.vo.StoreAtta">
+		SELECT SA.ATTACHMENT_NO
+			, SA.CHANGER_NAME
+			, SA.FILE_LEVEL
+			, SA.STORE_NO
+		FROM STORE_ATTA SA
+		INNER JOIN STORE S ON SA.STORE_NO = S.STORE_NO
+		WHERE SA.FILE_LEVEL >= 1
+		ORDER BY SA.FILE_LEVEL
+	</select>
+	
+	<!-- 매장 지역 전체 선택조회용 쿼리문  -->
+		<select id="selectRegion" resultType="com.kh.earthball.fo.store.vo.Region">
+			SELECT DISTINCT CITY
+			FROM STORE_REGION
+            ORDER BY CITY
+		</select>
+		
+		<!-- 시/도 만 가져오는 쿼리문  -->
+		<select id="selectCityList" resultType="com.kh.earthball.fo.store.vo.Region">
+			SELECT DISTINCT CITY
+			FROM STORE_REGION
+            ORDER BY CITY
+		</select>
+		
+		<!-- 시/도에 맞는 구/군 가져오는 쿼리문  -->
+		<select id="selectProvincesList" parameterType="String" resultType="com.kh.earthball.fo.store.vo.Region">
+			SELECT PROVINCES
+			FROM STORE_REGION
+			WHERE CITY = #{city}
+            ORDER BY PROVINCES
+		</select>
+		<!-- regionNo 받는 쿼리문  -->
+		<select id="selectRegionNo" parameterType="String" resultType="int">
+			SELECT STORE_REGION_NO
+			FROM STORE_REGION
+			WHERE CITY = #{city}
+				 AND PROVINCES = #{provinces}
+		</select>
+		
+		<!-- 필터링 쿼리문  -->
+		<select id="selectFilterListR" resultType="com.kh.earthball.fo.store.vo.Store">
+ 	    SELECT STORE_NO
+        , STORE_NAME
+        , STORE_ADDRESS
+        , STORE_DETAIL_ADDRESS
+        , STORE_PHONE
+        , BUSINESS_HOURS
+        , STORE_LIKES
+        , STORE_REGION_NO
+        , STORE_INFO
+        , STATUS
+        , CHANGER_NAME
+	    FROM STORE
+	    JOIN STORE_ATTA USING (STORE_NO)
+	    WHERE STATUS = 'Y'
+	    AND FILE_LEVEL = 0
+	    AND STORE_REGION_NO = #{regionNo}
+	    <if test="orderLikeCheck == false">
+        ORDER BY STORE_LIKES DESC
+    </if>
+    <if test="orderLikeCheck == true">
+        ORDER BY STORE_NAME 
+    </if>
+	 	</select>
+	 	
+	 	<select id="selectFilterListC" resultType="com.kh.earthball.fo.store.vo.Store">
+ 	    SELECT S.STORE_NO
+    , S.STORE_NAME
+    , S.STORE_ADDRESS
+    , STORE_DETAIL_ADDRESS
+    , S.STORE_PHONE
+    , S.BUSINESS_HOURS
+    , S.STORE_LIKES
+    , S.STORE_REGION_NO
+    , S.STORE_INFO
+    , S.STATUS
+    , CHANGER_NAME
+	FROM STORE S
+	JOIN STORE_REGION SR ON S.STORE_REGION_NO = SR.STORE_REGION_NO
+	JOIN STORE_ATTA SA ON S.STORE_NO = SA.STORE_NO
+	WHERE S.STATUS = 'Y'
+    AND SR.CITY = #{city}
+    AND FILE_LEVEL = 0
+	<if test="orderLikeCheck == false">
+        ORDER BY STORE_LIKES DESC
+    </if>
+    <if test="orderLikeCheck == true">
+        ORDER BY STORE_NAME 
+    </if>
+	 	</select>
+	 	
+	 	<select id="selectStoreAttaFilterList" resultType="com.kh.earthball.fo.store.vo.StoreAtta">
+		SELECT ATTACHMENT_NO
+					, CHANGER_NAME
+					, FILE_LEVEL
+					, STORE_NO
+		FROM STORE_ATTA
+		JOIN STORE USING (STORE_NO)
+		WHERE FILE_LEVEL >= 1
+		ORDER BY  FILE_LEVEL
+	</select>
+	 	
+	 	<!-- 매장 또는 지역 검색 조회 쿼리문  -->
+<select id="selectNameSearch" resultType="com.kh.earthball.fo.store.vo.Store">
+  SELECT STORE_NO
+    , STORE_NAME
+    , STORE_ADDRESS
+    , STORE_DETAIL_ADDRESS
+    , STORE_PHONE
+    , BUSINESS_HOURS
+    , STORE_LIKES
+    , STORE_REGION_NO
+    , STORE_INFO
+    , STATUS
+    , CHANGER_NAME
+  FROM STORE
+  JOIN STORE_ATTA USING (STORE_NO) 
+  WHERE (STORE_ADDRESS LIKE '%' || #{searchValue} || '%' OR STORE_NAME LIKE '%' || #{searchValue} || '%')
+    AND FILE_LEVEL = 0 
+  <if test="orderLikeCheck == false">
+        ORDER BY STORE_LIKES DESC
+    </if>
+    <if test="orderLikeCheck == true">
+        ORDER BY STORE_NAME 
+    </if>
+</select>
+
+	 	
+	 	<insert id="insertStoreLike">
+	 		INSERT INTO STORE_LIKES
+	 		VALUES(SEQ_STORE_LIKES.NEXTVAL
+	 		 , #{memberId}
+	 		 , #{storeNo})
+	 	</insert>
+	 	
+	 	<delete id = "deleteStoreLike">
+	 		DELETE FROM STORE_LIKES 
+	 		WHERE MEMBER_ID = #{memberId} 
+	 		AND STORE_NO = #{storeNo}
+	 	</delete>
+	 	
+	 	<update id = "updateStoreLikesCount">
+	 		UPDATE STORE
+	 		<if test="isLiked">
+	 			SET STORE_LIKES = STORE_LIKES + 1
+	 		</if>
+	 		<if test="!isLiked">
+	 			SET STORE_LIKES = STORE_LIKES - 1
+	 		</if>
+	 		WHERE STORE_NO = #{storeNo}
+	 	</update>
+	 	
+	 	<select id="isStoreLiked" resultType="boolean">
+		  SELECT COUNT(*) FROM STORE_LIKES
+		  WHERE MEMBER_ID = #{memberId}
+		    AND STORE_NO = #{storeNo}
+		</select>
+		
+		<select id="selectLikeStore" resultType="com.kh.earthball.fo.store.vo.Store">
+	 	    SELECT DISTINCT S.STORE_NO
+		    , S.STORE_NAME
+		    , S.STORE_ADDRESS
+		    , S.STORE_DETAIL_ADDRESS
+		    , S.STORE_PHONE
+		    , S.BUSINESS_HOURS
+		    , S.STORE_LIKES
+		    , S.STORE_REGION_NO
+		    , S.STORE_INFO
+		    , S.STATUS
+		    , CHANGER_NAME
+		FROM STORE S
+		JOIN STORE_ATTA SA ON S.STORE_NO = SA.STORE_NO 
+		JOIN STORE_LIKES SL ON S.STORE_NO = SL.STORE_NO
+		WHERE S.STATUS = 'Y'
+		    AND SL.MEMBER_ID = #{memberId}
+		    AND FILE_LEVEL = 0
+		ORDER BY S.STORE_LIKES DESC
+	 	</select>
+		
+</mapper>

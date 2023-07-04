@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.challenge.mapper.ChallengeMapper">
+
+  <select id="selectListCount" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+      FROM TB_CHALLENGE
+      WHERE 1 = 1
+      <if test="categoryNo != null and categoryNo != ''">
+          AND CATEGORY_NO = #{categoryNo}
+      </if>
+      <if test="chStatName != null and chStatName != ''">
+          AND CH_STAT_NAME = #{chStatName}
+      </if>
+  </select>
+
+  <select id="selectList" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+      SELECT *
+      FROM (
+               SELECT CH_NO
+                    , CH_TITLE
+                    , CATEGORY_NO
+                    , CH_START_DAY
+                    , CH_END_DAY
+                    , CH_STAT_NAME
+                    , MEMBER_ID
+                    , CATEGORY_NAME
+                    , FILE_PATH
+                    , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+               FROM ( SELECT CH_NO
+                           , CH_TITLE
+                           , CATEGORY_NO
+                           , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                           , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                           , CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD') THEN '진행예정'
+                                  WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD') THEN '진행완료'
+                                  ELSE '진행중'
+                       END AS CH_STAT_NAME
+                           , MEMBER_ID
+                           , (SELECT CATEGORY_NAME
+                              FROM TB_CATEGORY CA
+                              WHERE CA.CATEGORY_NO = C.CATEGORY_NO) AS CATEGORY_NAME
+                           , (SELECT FILE_PATH
+                              FROM TB_CHA_FILE F
+                              WHERE F.FILE_NO = C.FILE_NO) AS FILE_PATH
+                      FROM TB_CHALLENGE C
+                      WHERE C.STATUS = 'Y')
+               WHERE 1 = 1
+                <if test="categoryNo != null and categoryNo != ''">
+                 AND CATEGORY_NO = #{categoryNo}
+                </if>
+                <if test="chStatName != null and chStatName != ''">
+                  AND CH_STAT_NAME = #{chStatName}
+                </if>
+               )
+      WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+  </select>
+
+  <insert id="requestChallenge" parameterType="com.kh.earthball.fo.challenge.vo.Challenge">
+    <selectKey keyProperty="chNo" resultType="java.lang.Integer" order="BEFORE">
+      SELECT SEQ_TB_CHALLENGE.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    <!--BEFORE로 설정하면 키를 먼저 조회하고 그 값을 keyProperty 에 셋팅한 뒤 insert 구문을 실행한다.-->
+    INSERT INTO TB_CHALLENGE (CH_NO
+                            , CH_TITLE
+                            , CH_START_DAY
+                            , CH_END_DAY
+                            , MEMBER_ID
+                            , CATEGORY_NO
+                            , FILE_NO
+                            , CH_CONTENT
+                            , STATUS)
+                    VALUES (#{chNo}
+                          , #{chTitle}
+                          , #{chStartDay}
+                          , #{chEndDay}
+                          , #{memberId}
+                          , #{categoryNo}
+                          , #{fileNo}
+                          , #{chContent}
+                          , 'Y')
+  </insert>
+
+  <insert id="insertChDetailInfo"  parameterType="com.kh.earthball.fo.challenge.vo.ChDetailInfo">
+    INSERT INTO TB_CH_DETAIL_INFO ( CH_DETAIL_INFO_NO
+                                  , CH_NO
+                                  , CATEGORY_TEMPLATE_NO
+                                  , CH_DETAIL_INFO_DATA
+                                  , CODE
+                                  , FILE_NO)
+    VALUES ( SEQ_TB_CH_DETAIL_INFO.NEXTVAL
+           , #{chNo}
+           , #{categoryTemplateNo}
+           , #{chDetailInfoData}
+           , #{code}
+           , #{fileNo})
+  </insert>
+
+  <select id="selectChallenge" parameterType="java.lang.Integer" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+    SELECT CH_NO
+         , CH_TITLE
+         , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+         , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+         <![CDATA[
+         , CASE
+            WHEN SYSDATE < TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+            WHEN SYSDATE > TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+            ELSE '진행중'
+          END AS CH_STAT_NAME
+         ]]>
+         , MEMBER_ID
+         , CATEGORY_NO
+         , FILE_NO
+         , (SELECT CATEGORY_NAME
+            FROM TB_CATEGORY CA
+            WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+         , (SELECT FILE_PATH
+            FROM TB_CHA_FILE F
+            WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+         , CH_CONTENT
+      FROM TB_CHALLENGE C
+     WHERE CH_NO = #{chNo}
+       AND STATUS = 'Y'
+  </select>
+
+
+  <update id="challengeUpdate" parameterType="com.kh.earthball.fo.challenge.vo.Challenge">
+    UPDATE TB_CHALLENGE
+       SET CH_TITLE = #{chTitle}
+         , CH_START_DAY = #{chStartDay}
+         , CH_END_DAY = #{chEndDay}
+         , FILE_NO = #{fileNo}
+         , CH_CONTENT = #{chContent}
+     WHERE CH_NO = #{chNo}
+       AND MEMBER_ID = #{memberId}
+       AND CATEGORY_NO = #{categoryNo}
+       AND STATUS = 'Y'
+  </update>
+
+  <update id="challengeDelete">
+    UPDATE TB_CHALLENGE
+       SET STATUS = 'N'
+     WHERE CH_NO = #{chNo}
+  </update>
+
+
+    <select id="selectCategoryListCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+          FROM TB_CHALLENGE
+         WHERE CATEGORY_NO = #{categoryNo}
+    </select>
+
+    <select id="selectCategoryList" parameterType="java.lang.Integer" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+        SELECT *
+          FROM (SELECT CH_NO
+                     , CH_TITLE
+                     , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                     , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                    <![CDATA[
+                     , CASE
+                           WHEN SYSDATE < TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                           WHEN SYSDATE > TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                           ELSE '진행중'
+                           END AS CH_STAT_NAME
+                     ]]>
+                     , MEMBER_ID
+                     , (SELECT CATEGORY_NAME
+                        FROM TB_CATEGORY CA
+                        WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+                     , (SELECT FILE_PATH
+                        FROM TB_CHA_FILE F
+                        WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+                     , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+                FROM TB_CHALLENGE C
+                WHERE STATUS = 'Y'
+                  AND CATEGORY_NO = #{categoryNo})
+          WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <select id="selectStatListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+          FROM ( SELECT CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD') THEN '진행예정'
+                             WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD') THEN '진행완료'
+                             ELSE '진행중'
+                         END AS CH_STAT_NAME
+                   FROM TB_CHALLENGE
+                  WHERE STATUS = 'Y') stat
+        WHERE stat.CH_STAT_NAME = #{chStatName}
+    </select>
+
+    <select id="selectStatList" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+        SELECT *
+        FROM (
+        SELECT CH_NO
+             , CH_TITLE
+             , CH_START_DAY
+             , CH_END_DAY
+             , CH_STAT_NAME
+             , MEMBER_ID
+             , CATEGORY_NAME
+             , FILE_PATH
+             , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+        FROM ( SELECT CH_NO
+                    , CH_TITLE
+                    , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                    , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                    , CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD') THEN '진행예정'
+                           WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD') THEN '진행완료'
+                           ELSE '진행중'
+                       END AS CH_STAT_NAME
+                    , MEMBER_ID
+                    , (SELECT CATEGORY_NAME
+                         FROM TB_CATEGORY CA
+                        WHERE CA.CATEGORY_NO = C.CATEGORY_NO) AS CATEGORY_NAME
+                    , (SELECT FILE_PATH
+                         FROM TB_CHA_FILE F
+                        WHERE F.FILE_NO = C.FILE_NO) AS FILE_PATH
+                FROM TB_CHALLENGE C
+               WHERE C.STATUS = 'Y')
+        WHERE CH_STAT_NAME = #{chStatName})
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <!-- 챌린지 최근 3건 조회 (메인화면에 노출될 것들)-->
+    <select id="mainChallengeList" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+        SELECT *
+        FROM (
+                SELECT C.CH_NO
+                     , C.CH_TITLE
+                     , TO_CHAR(TO_DATE(C.CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                     , TO_CHAR(TO_DATE(C.CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                     , CASE WHEN SYSDATE &lt; TO_DATE(C.CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                            WHEN SYSDATE &gt; TO_DATE(C.CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                            ELSE '진행중'
+                        END AS CH_STAT_NAME
+                     , C.MEMBER_ID
+                     , (SELECT CATEGORY_NAME
+                          FROM TB_CATEGORY CA
+                         WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+                     , (SELECT FILE_PATH
+                          FROM TB_CHA_FILE F
+                         WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+                     , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+                  FROM TB_CHALLENGE C
+                 WHERE C.STATUS = 'Y')
+        WHERE ROW_NUM BETWEEN 0 AND 3
+    </select>
+
+    <select id="confirmCount" resultType="com.kh.earthball.fo.challenge.vo.ConfirmCount">
+        SELECT CH_NO
+             , COUNT_CONFIRM
+             , ROW_NUM
+        FROM ( SELECT TC.CH_NO
+                      , COUNT(*) AS COUNT_CONFIRM
+                      , ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS ROW_NUM
+                 FROM TB_CH_CONFIRM TCC
+                INNER JOIN TB_CHALLENGE TC
+                   ON TCC.CH_NO = TC.CH_NO
+                WHERE TCC.STATUS = 'Y'
+                  AND TC.STATUS = 'Y'
+                GROUP BY TC.CH_NO )
+        WHERE ROW_NUM BETWEEN 1 AND 10
+    </select>
+
+    <select id="selectHotChallenge" parameterType="java.lang.Integer" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+        SELECT *
+          FROM ( SELECT CH_NO
+                      , CH_TITLE
+                      , CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                             WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                             ELSE '진행중'
+                         END AS CH_STAT_NAME
+                      , (SELECT CATEGORY_NAME
+                           FROM TB_CATEGORY CA
+                          WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+                    FROM TB_CHALLENGE C
+                   WHERE CH_NO =  #{chNo}
+                     AND STATUS = 'Y')
+    </select>
+
+    <select id="myChallengeListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM ( SELECT CH_NO
+                    , CH_TITLE
+                    , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                    , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                    , CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                           WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                           ELSE '진행중'
+                       END AS CH_STAT_NAME
+                    , MEMBER_ID
+                    , (SELECT CATEGORY_NAME
+                         FROM TB_CATEGORY CA
+                        WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+                    , (SELECT FILE_PATH
+                         FROM TB_CHA_FILE F
+                        WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+                 FROM TB_CHALLENGE C
+                WHERE STATUS = 'Y'
+                  AND MEMBER_ID = #{memberId})
+    </select>
+
+    <select id="selectMyChallenge" resultType="com.kh.earthball.fo.challenge.vo.Challenge">
+        SELECT *
+          FROM (SELECT CH_NO
+                     , CH_TITLE
+                     , TO_CHAR(TO_DATE(CH_START_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_START_DAY
+                     , TO_CHAR(TO_DATE(CH_END_DAY, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS CH_END_DAY
+                     , CASE WHEN SYSDATE &lt; TO_DATE(CH_START_DAY, 'YYYY-MM-DD')  THEN '진행예정'
+                            WHEN SYSDATE &gt; TO_DATE(CH_END_DAY, 'YYYY-MM-DD')  THEN '진행완료'
+                            ELSE '진행중'
+                        END AS CH_STAT_NAME
+                     , MEMBER_ID
+                     , (SELECT CATEGORY_NAME
+                          FROM TB_CATEGORY CA
+                         WHERE CA.CATEGORY_NO = C.CATEGORY_NO) CATEGORY_NAME
+                     , (SELECT FILE_PATH
+                          FROM TB_CHA_FILE F
+                         WHERE F.FILE_NO = C.FILE_NO) FILE_PATH
+                    , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+                 FROM TB_CHALLENGE C
+                WHERE STATUS = 'Y'
+                  AND MEMBER_ID = #{memberId} )
+         WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.fo.payment.mapper.PaymentMapper">
+
+<!-- 결제데이터 추가 -->
+<insert id="payComplete" parameterType="com.kh.earthball.fo.payment.vo.PayInfo">
+	INSERT INTO PAYMENT (PAYMENT_NO
+									  , MEMBER_ID
+									  , PAYMENT_DATE
+									  , PAYMENT_TYPE
+									  , STATUS
+									  , PAYMENT_NAME
+									  , PAYMENT_TOTAL
+									  , RECEIVE_NAME
+									  , RECEIVE_PHONE
+									  , POST_CODE
+									  , ADDRESS1
+									  , ADDRESS2
+									  , DELIVERY_COMMENT
+									  , PAYMENT_TOKEN
+									  , REWARD_POINT)
+								VALUES (#{paymentNo}
+									  , #{memberId}
+									  , SYSDATE
+									  , #{paymentType}
+									  , 'Y'
+									  , #{paymentName}
+									  , #{paymentTotal}
+									  , #{receiveName}
+									  , #{receivePhone}
+									  , #{postCode}
+									  , #{receiveAddress1}
+									  , #{receiveAddress2}
+									  , #{deliveryComment}
+									  , #{paymentToken}
+									  , #{rewardPoint})
+</insert>
+
+<!-- 회원 주문누적금액 증가 -->
+<update id="addTotalPay" parameterType="com.kh.earthball.fo.payment.vo.PayInfo">
+	UPDATE MEMBER
+	      SET TOTAL_PAY = TOTAL_PAY + #{paymentTotal}
+	 WHERE MEMBER_ID = #{memberId}
+</update>
+
+<!-- 회원등급 새로고침 -->
+<update id="updateGrade" parameterType="com.kh.earthball.fo.payment.vo.PayInfo">
+	UPDATE MEMBER M
+	      SET M.GRADE_NAME = (SELECT G.GRADE_NAME
+	      										 FROM GRADE G
+	      									   WHERE M.TOTAL_PAY BETWEEN G.PAYMENT_MIN AND G.PAYMENT_MAX)
+	WHERE M.MEMBER_ID = #{memberId}
+</update>
+
+<!-- 결제페이지에 값 뿌려주기위해 상품DB에서 조회 -->
+<select id="selectProductList" parameterType="com.kh.earthball.fo.payment.vo.PayPageList" resultType="com.kh.earthball.fo.cart.vo.Cart">
+	SELECT AMOUNT, C.PRICE, PRODUCT_NAME, CHANGER_NAME, PRODUCT_NO, MEMBER_ID
+	   FROM CART C
+		 JOIN PRODUCT P USING (PRODUCT_NO)
+		 JOIN PRODUCT_ATTA PA USING (PRODUCT_NO)
+	 WHERE MEMBER_ID = #{memberId}
+	 	  AND PRODUCT_NO = #{productNo}
+		  AND FILE_LEVEL = 0
+</select>
+
+<select id="selectProductItem" parameterType="com.kh.earthball.fo.payment.vo.PayPageItem" resultType="com.kh.earthball.fo.payment.vo.PayPageItem">
+	SELECT PRODUCT_NO, PRICE, PRODUCT_NAME, CHANGER_NAME
+	    FROM PRODUCT P
+	      JOIN PRODUCT_ATTA PA USING (PRODUCT_NO)
+	  WHERE PRODUCT_NO = ${productNo}
+	       AND FILE_LEVEL = 0
+</select>
+
+<!-- 결제된 상품 orders 테이블에 추가 -->
+
+<!-- 마이페이지 결제내역 갯수 조회 -->
+<select id="myOrderListCount" parameterType="java.lang.String">
+	SELECT COUNT(*)
+	   FROM PAYMENT
+	 WHERE MEMBER_ID = #{memberId}
+</select>
+
+<!-- 마이페이지 결제내역 리스트 조회 -->
+<select id="selectMyOrder" resultType="com.kh.earthball.fo.payment.vo.PayInfo">
+	SELECT ROWNUM, P.*
+		FROM (SELECT PAYMENT_NO
+		           , MEMBER_ID
+		           , TO_CHAR(PAYMENT.PAYMENT_DATE, 'YYYY-MM-DD') AS "PAYMENT_DATE"
+		           , PAYMENT_TYPE
+                   , STATUS
+                   , PAYMENT_NAME
+                   , PAYMENT_TOTAL
+                   , REWARD_POINT
+		        FROM PAYMENT
+		       WHERE MEMBER_ID = #{memberId}
+		       ORDER BY PAYMENT_DATE DESC) P
+		WHERE ROWNUM BETWEEN #{offset} AND #{limit}
+</select>
+
+<!-- 회원 관리자에게 결제취소 요청 -->
+<!-- 결제상태 요청중(STATUS => R) 로 업데이트 -->
+<update id="reqPayCancel" parameterType="com.kh.earthball.fo.payment.vo.PayInfo">
+	UPDATE PAYMENT
+		  SET STATUS = 'R'
+	  WHERE MEMBER_ID = #{memberId}
+		  AND PAYMENT_NO = #{paymentNo}
+		  AND STATUS = 'Y'
+</update>
+
+</mapper>

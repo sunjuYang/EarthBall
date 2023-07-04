@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org// Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.earthball.bo.challenge.mapper.BoConfirmMapper">
+
+    <select id="ConfirmListCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+          FROM TB_CH_CONFIRM
+         WHERE STATUS = 'Y'
+    </select>
+
+    <select id="selectConfirmList" resultType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+        SELECT *
+        FROM (SELECT CH_CON_NO
+                   , CH_NO
+                   , CH_CON_TITLE
+                   , MEMBER_ID
+                   , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                   , ROW_NUMBER() OVER (ORDER BY CH_NO DESC) AS ROW_NUM
+              FROM TB_CH_CONFIRM
+              WHERE STATUS = 'Y')
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <select id="selectConfirm" parameterType="java.lang.Integer" resultType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+        SELECT CH_NO
+             , CH_CON_NO
+             , CH_CON_TITLE
+             , MEMBER_ID
+             , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+        FROM TB_CH_CONFIRM
+        WHERE CH_CON_NO =  #{chConNo}
+          AND STATUS = 'Y'
+    </select>
+
+    <update id="deleteConfirm" parameterType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+        UPDATE TB_CH_CONFIRM
+        SET STATUS = 'N'
+        WHERE CH_CON_NO = #{chConNo}
+          AND MEMBER_ID = #{memberId}
+    </update>
+
+    <delete id="deleteDetailInfo" parameterType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+        DELETE FROM TB_CH_DETAIL_INFO
+        WHERE CH_NO = #{chNo}
+          AND CH_CON_NO = #{chConNo}
+    </delete>
+
+    <select id="searchConfirmListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM ( SELECT CH_CON_NO
+                    , CH_NO
+                    , CH_CON_TITLE
+                    , MEMBER_ID
+                    , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                 FROM TB_CH_CONFIRM
+                 WHERE STATUS = 'Y'
+                   AND CH_CON_TITLE LIKE '%' || #{keyword} || '%'
+                    OR MEMBER_ID LIKE '%' || #{keyword} || '%' )
+    </select>
+
+    <select id="searchDetailListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM ( SELECT CONF.*
+                 FROM ( SELECT C.CH_CON_NO
+                             , C.CH_NO
+                             , C.CH_CON_TITLE
+                             , C.MEMBER_ID
+                             , TO_CHAR(C.CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                         FROM TB_CH_CONFIRM C
+                         JOIN(SELECT tcdi.CH_DETAIL_INFO_NO
+                                   , tcdi.CH_DETAIL_INFO_DATA
+                                   , tcdi.CH_CON_NO
+                                   , tcdi.CH_NO
+                                FROM TB_CH_DETAIL_INFO tcdi
+                               WHERE tcdi.STATUS = 'Y'
+                                 AND CH_DETAIL_INFO_DATA LIKE '%' || #{keyword} || '%') DE ON DE.CH_CON_NO = C.CH_CON_NO
+                 WHERE STATUS = 'Y') CONF)
+    </select>
+
+    <select id="searchConfirm" parameterType="com.kh.earthball.bo.challenge.vo.SearchParameters" resultType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+
+        SELECT *
+        FROM( SELECT CONF.*
+                   , ROW_NUMBER() OVER (ORDER BY CH_CON_NO) AS ROW_NUM
+                FROM ( SELECT CH_CON_NO
+                             , CH_NO
+                             , CH_CON_TITLE
+                             , MEMBER_ID
+                             , TO_CHAR(CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                         FROM TB_CH_CONFIRM
+                        WHERE STATUS = 'Y'
+                          AND CH_CON_TITLE LIKE '%' || #{keyword} || '%'
+                           OR MEMBER_ID LIKE '%' || #{keyword} || '%' ) CONF)
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+    <select id="searchDetail" parameterType="com.kh.earthball.bo.challenge.vo.SearchParameters" resultType="com.kh.earthball.bo.challenge.vo.BoConfirm">
+        SELECT *
+        FROM( SELECT CONF.*
+                   , ROW_NUMBER() OVER (ORDER BY CH_CON_NO) AS ROW_NUM
+              FROM ( SELECT C.CH_CON_NO
+                          , C.CH_NO
+                          , C.CH_CON_TITLE
+                          , C.MEMBER_ID
+                          , TO_CHAR(C.CH_CON_CREATE_DATE, 'YYYY-MM-DD') AS CH_CON_CREATE_DATE
+                     FROM TB_CH_CONFIRM C
+                              JOIN(SELECT tcdi.CH_DETAIL_INFO_NO
+                                        , tcdi.CH_DETAIL_INFO_DATA
+                                        , tcdi.CH_CON_NO
+                                        , tcdi.CH_NO
+                                   FROM TB_CH_DETAIL_INFO tcdi
+                                   WHERE tcdi.STATUS = 'Y'
+                                     AND CH_DETAIL_INFO_DATA LIKE '%' || #{keyword} || '%') DE ON DE.CH_CON_NO = C.CH_CON_NO
+                     WHERE STATUS = 'Y') CONF)
+        WHERE ROW_NUM BETWEEN #{offset} AND #{limit}
+    </select>
+
+
+</mapper>
