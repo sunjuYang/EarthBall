@@ -1,1 +1,1 @@
-# THe website for the Eco-friendly product shopping & challenge
+# The website for the Eco-friendly product shopping & challenge
