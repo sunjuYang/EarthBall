@@ -1,1 +1,1 @@
-# TeamProject2-EarthBall
+# 친환경 제품 쇼핑 & 챌린지 홈페이지
